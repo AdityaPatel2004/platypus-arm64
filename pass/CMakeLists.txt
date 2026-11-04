@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.20)
+project(JailPass)
+find_package(LLVM REQUIRED CONFIG)   # version pinned via -DLLVM_DIR (llvm-20)
+message(STATUS "Using LLVM ${LLVM_PACKAGE_VERSION} from ${LLVM_DIR}")
+list(APPEND CMAKE_MODULE_PATH "${LLVM_CMAKE_DIR}")
+include(AddLLVM)
+set(CMAKE_CXX_STANDARD 17)
+add_library(JailPass SHARED JailPass.cpp)
+target_include_directories(JailPass PRIVATE ${LLVM_INCLUDE_DIRS})
+target_compile_definitions(JailPass PRIVATE ${LLVM_DEFINITIONS})
+# LLVM is built without RTTI; a plug-in that uses it fails to load.
+set_target_properties(JailPass PROPERTIES COMPILE_FLAGS "-fno-rtti")
