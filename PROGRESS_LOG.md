@@ -1,4 +1,4 @@
-# Progress Log — Execution Jails for ARM64
+# Progress Log — Restricting Cross-Library Control Flow on AArch64
 
 Timeline note: the 9-week plan was compressed into a focused build sprint. Entries
 use the project's 8-field template. Machine state unless stated: Ubuntu 24.04.5
@@ -120,3 +120,36 @@ arm64 in Lima VM on Apple M4 Pro, 4 vCPU / 8 GB, native virtualization, idle.
 - `check` mode measurement at scale; HWASan-style report of blocked escapes.
 - RELRO masks (#9): post-constructor mprotect on a dedicated mask page.
 - variadic address-taken imports (fcntl64, mremap) fake-PLT via an asm thunk.
+
+## Session G — Independent audit and fixes (4 Nov 2026)
+Machine state: M4 Pro; runs in an Arm64 Linux VM on the same chip (Ubuntu
+22.04 userland, kernel 6.8, 4 vCPU) against Ubuntu 24.04's glibc 2.39; builds
+with Ubuntu 24.04's clang 20.1.2 + binutils 2.42 (cross packages). Lima VM not
+used (session could not type into Terminal); `run_all.sh` reproduces in Lima.
+- **DID:** Audited the 21 Oct tree against the proposal (14 problems; see
+  AUDIT_RESPONSE.md). Rewrote fake-PLT as asm stubs (variadic-safe); masks on a
+  read-only page, fail-closed; added Option D (`pcrel`) and Option C
+  (`aligned`, kernel-placed via p_align); hand-coded A/B/C/D microbenchmark
+  with predictable/unpredictable targets; redis 7.2.5 hardened from source;
+  speedtest1; 4-mode SQLite correctness; binary-level `asm_audit.py` and
+  `reach_after_bin.py`; `bench.py` (interleaved, CI, resumable); write-then-
+  hijack attack demo; BTI pads-vs-marker scan; `run_all.sh`; new figures.
+- **BROKE:** (1) hardened SQLite crashed on every on-disk DB (variadic
+  `fcntl64` unstubbed) — found by testing a file DB. (2) C/D clamps were
+  hoisted and spilled to the stack (`ldr x8,[sp]; blr x8`) — found by the new
+  audit; fixed with a per-call side-effecting `adrp`. (3) Option C's window
+  check failed because max-page-size pushes data into the next block — the
+  check now covers executable segments only. (4) redis defaults to -O3+LTO —
+  built at -O2 without LTO. (5) Without fake-PLT, SQLite crashes even in
+  memory at 100k rows (temp-file spill).
+- **DECIDED:** recommend D as the default, C for call-heavy code (pays ASLR
+  bits + file size), keep B as the PLaTypus-equivalent; report C/D's negative
+  sqlite_bench numbers as layout effects, not speed-ups.
+- **NUMBERS:** reach sqlite3 3,816→26 (99.3%), redis 3,816→7 (99.8%);
+  clamped sites sqlite3 1,909–1,917, redis 1,057–1,059, 2 unclamped (crtbeginS);
+  RQ2 unpredictable C +3.6% / A,B +7.0% / D +11.0%; real workloads B ≤ +1.8%,
+  C/D ≈ 0; A/A ±0.8%; 21 Oct +5.2% micro → +0.12% here; Ubuntu 24.04 toolchain
+  libs: 0/27 marked, libstdc++ 4,207 pads, libc 23 pads.
+- **COMMANDS:** `bash run_all.sh`; `BENCH=1 bash run_all.sh`; `python3 tools/plots_v2.py`
+- **FILES:** see AUDIT_RESPONSE.md.
+- **NEXT:** confirm in Lima; redis `make test`; Fedora/26.04 scans; liboqs re-run; GitHub.

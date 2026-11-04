@@ -1,0 +1,7 @@
+program,dso,exported_funcs,dangerous_in_dso,dangerous_names
+sqlite3_base,ld-linux-aarch64.so.1,22,0,
+sqlite3_base,libm.so.6,1113,0,
+sqlite3_base,libc.so.6,2681,32,__libc_system;__mmap;clone;dlmopen;dlopen;dlsym;execl;execle;execlp;execv;execve;execveat;execvp;execvpe;fexecve;fork;mmap;mmap64;mprotect;mremap;popen;posix_spawn;posix_spawnp;setegid;seteuid;setgid;setresuid;setreuid;setuid;syscall;system;vfork
+redis-server_base,ld-linux-aarch64.so.1,22,0,
+redis-server_base,libm.so.6,1113,0,
+redis-server_base,libc.so.6,2681,32,__libc_system;__mmap;clone;dlmopen;dlopen;dlsym;execl;execle;execlp;execv;execve;execveat;execvp;execvpe;fexecve;fork;mmap;mmap64;mprotect;mremap;popen;posix_spawn;posix_spawnp;setegid;seteuid;setgid;setresuid;setreuid;setuid;syscall;system;vfork

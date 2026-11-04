@@ -8,6 +8,12 @@ every file below is a real part of the project. All commands run **inside the VM
 Pre-built binaries live in `demos/out/`, pre-generated assembly in `demos/asm/`,
 so nothing has to compile mid-talk (but compiling live is fine — it's ~1 s).
 
+> **4 Nov 2026:** `demos/out/` holds the **21 Oct** binaries. Their hardened
+> SQLite crashes on any on-disk database, and their masks are writable. Before
+> presenting, run `bash run_all.sh` once and use the fresh binaries in
+> `build/native/` (same names with `_mask`/`_pcrel`/`_aligned`, e.g.
+> `build/native/poc_pcrel hijack`). Numbers below are updated to REPORT.md.
+
 Order below is the suggested teaching arc. Each step says what to open, what to
 run, and the one line it proves.
 
@@ -74,14 +80,19 @@ diff demos/asm/toy_base.s demos/asm/toy_jail.s
 ```
 The only added lines (prefixed `>`) are:
 ```
-ldr  x9,  [x9, :lo12:__jail_ormask]     <- load the floor mask
-ldr  x10, [x10,:lo12:__jail_andmask]    <- load the ceiling mask
-orr  x8,  x8, x9                        <- force address >= module base
-and  x8,  x8, x10                       <- force address <= module top
+ldp  x9, x10, [x25]        <- load both masks from the read-only __jail_masks page
+orr  x8,  x8, x9           <- force address >= module base
+and  x8,  x8, x10          <- force address <= module top
 ```
-Point at the symbol names — `__jail_ormask` / `__jail_andmask` say exactly what
-they do. "Before every indirect `blr`, our compiler pass inserts these four
-instructions that bend the target back into this program's own memory."
+"Before every indirect `blr`, our compiler pass inserts these instructions that
+bend the target back into this program's own memory." (This is Option B,
+`JAIL=mask`. The other two encodings are a good second slide:
+`JAIL=pcrel` → `adrp; sub; and #0x3fffff; add`, and `JAIL=aligned` → one
+`bfxil`. Rebuild the toy with each and `objdump -d` it.)
+
+> 4 Nov 2026: the `demos/asm/*.s` files are from the 21 Oct pass, which used
+> two separate globals `__jail_ormask`/`__jail_andmask`; regenerate them with
+> `JAIL=mask bin/a64cc -O2 -S tests/toy_indirect.c -o demos/asm/toy_jail.s`.
 
 (Same thing in the exploit itself: `demos/asm/poc_base.s` vs `poc_jail.s`.)
 
@@ -126,9 +137,12 @@ OOB target … = stat / access / __close / __fstat64 (libc.so.6)
 ```
 "Real SQLite, at scale, legitimately calls libc through function pointers (its
 file layer). A naive jail would break these. That's the problem we solved with
-**fake-PLT** — in-module trampolines (`cat pass/JailPass.cpp`, function
-`installFakePlt`). 20 are generated automatically, and then the hardened SQLite
-runs correctly."
+**fake-PLT** — in-module two-instruction stubs `bti c; b <f>` (`cat
+pass/JailPass.cpp`, function `installFakePlt`). On disk SQLite also calls
+`fcntl64` (and `mremap` in mmap mode) this way — both variadic, which the 21 Oct
+version could not stub, so it crashed on every on-disk database. Now 25 stubs
+are generated and the hardened SQLite is byte-identical in all 4 storage modes
+(`bash tests/check_correctness.sh <base> <hardened>`)."
 **Proves:** this is engineering/research, not a mechanical port.
 
 ---
@@ -148,16 +162,25 @@ rm -f /tmp/fp.txt; JAIL=mask JAIL_FAKEPLT_OUT=/tmp/fp.txt bin/a64cc $F $SRC/shel
 python3 tools/reach.py /tmp/sqlite_base
 ```
 → **3,816** reachable cross-library functions, **32 dangerous** (system, execve, …).
-**After:**
+**After** (measured from the hardened binary itself):
 ```bash
-python3 tools/reach.py /tmp/sqlite_base --after /tmp/fp.txt
+python3 tools/reach_after_bin.py /tmp/sqlite_hard
 ```
-→ **23** reachable, **1** dangerous (only `mmap64`). A **99.4%** cut.
+→ **26** reachable, **2** dangerous (`mmap64`, `mremap`). A **99.3%** cut. It also
+lists `system`/`popen`, which the sqlite shell calls *directly*: reachable only in
+two steps, via the shell's own code (same limit as PLaTypus).
 **Completeness** (every indirect call clamped):
 ```bash
-bash tools/asm_audit.sh /tmp/sqlite_hard
+python3 tools/asm_audit.py /tmp/sqlite_hard
 ```
-→ 1761/1761 `blr` clamped, 0 uninstrumented.
+→ 1,909 call sites clamped (1,761 `blr` + 148 indirect tail calls `br`); the only 2
+unclamped branches are in GCC's crtbeginS.o.
+
+**The stronger attacker** (write-then-hijack):
+```bash
+build/native/attack_mask          # Segmentation fault at the mask write: masks are read-only
+```
+The 21 Oct build lost this one: the attacker rewrote the masks and the shell ran.
 
 > The distro `/usr/bin/sqlite3` shows a bigger 6,022 "before" because it also
 > loads `libsqlite3.so` — that number is the *ecosystem* attack surface

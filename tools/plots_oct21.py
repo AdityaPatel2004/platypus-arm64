@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# (21 Oct figures; superseded by tools/plots_v2.py)
 """plots.py — generate the report figures from results/*.csv. Writes PNGs to
 results/figs/. Each figure is self-contained and skipped if its data is missing.
 """

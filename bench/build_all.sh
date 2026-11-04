@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# build_all.sh — build every test, demo and benchmark binary in three
-# configurations (base = unhardened, mask = Option B, pcrel = Option D) into
+# build_all.sh — build every test, demo and benchmark binary in four
+# configurations (base = unhardened, mask = Option B, pcrel = Option D,
+# aligned = Option C) into
 # build/<tag>/. Works natively in the Lima VM (Ubuntu 24.04 arm64) and as a
 # cross build (A64_CROSS=1) whose binaries are then run on the M4.
 #   usage: build_all.sh [tag]        (default tag: native)
@@ -16,19 +17,21 @@ j() { local mode="$1"; shift; if [ "$mode" = base ]; then JAIL=none "$CC" "$@"; 
 
 log "tests + demos"
 "$CC" -O1 "$ROOT/tests/bti_probe.c" -o "$O/bti_probe"
-"$CC" -O1 -mbranch-protection=none "$ROOT/tests/bti_probe.c" -o "$O/bti_probe_control" 2>/dev/null || true
-for m in base mask pcrel; do
+for m in base mask pcrel aligned; do
   j $m -O2 "$ROOT/tests/toy_indirect.c"   -o "$O/toy_$m"
   j $m -O2 -U_FORTIFY_SOURCE "$ROOT/tests/hijack_poc.c"     -o "$O/poc_$m"
   [ $m != base ] && j $m -O2 "$ROOT/tests/mask_attack_poc.c" -o "$O/attack_$m"
 done
 
 log "microbenchmarks"
-for m in base mask pcrel; do j $m -O2 "$ROOT/bench/indirect_micro.c" -o "$O/micro_$m"; done
-for v in NONE A B D; do "$CC" -O2 -DVARIANT_$v "$ROOT/bench/clamp_micro.c" -o "$O/cmicro_$v"; done
+for m in base mask pcrel aligned; do j $m -O2 "$ROOT/bench/indirect_micro.c" -o "$O/micro_$m"; done
+for v in NONE A B C D; do
+  "$CC" -O2 -DVARIANT_$v "$ROOT/bench/clamp_micro.c" -o "$O/cmicro_$v"
+  "$CC" -O2 -DVARIANT_$v -DRANDOM "$ROOT/bench/clamp_micro.c" -o "$O/cmicroR_$v"
+done
 
 log "sqlite (CLI, bench, speedtest1)"
-for m in base mask pcrel; do
+for m in base mask pcrel aligned; do
   : > "$O/fakeplt_sqlite_$m.txt"
   JAIL_FAKEPLT_OUT="$O/fakeplt_sqlite_$m.txt" j $m $SQF "$SQ/shell.c" "$SQ/sqlite3.c" -lm -o "$O/sqlite3_$m" &
   j $m $SQF "$ROOT/bench/sqlite_bench.c" "$SQ/sqlite3.c" -lm -o "$O/sqlbench_$m" &
@@ -39,7 +42,7 @@ JAIL_NO_FAKEPLT=1 j mask $SQF "$ROOT/bench/sqlite_bench.c" "$SQ/sqlite3.c" -lm -
 JAIL=audit "$CC" $SQF "$SQ/shell.c" "$SQ/sqlite3.c" -lm -o "$O/sqlite3_audit"
 
 log "redis"
-"$ROOT/bench/build_redis.sh" base mask pcrel
-for m in base mask pcrel; do cp "$ROOT/targets/redis-$m/src/redis-server" "$O/redis-server_$m"; done
+"$ROOT/bench/build_redis.sh" base mask pcrel aligned
+for m in base mask pcrel aligned; do cp "$ROOT/targets/redis-$m/src/redis-server" "$O/redis-server_$m"; done
 cp "$ROOT/targets/redis-base/src/redis-benchmark" "$ROOT/targets/redis-base/src/redis-cli" "$O/"
 ls -la "$O"

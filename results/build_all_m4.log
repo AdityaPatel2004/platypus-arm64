@@ -1,0 +1,105 @@
+### tests + demos
+[jail] mode=mask module=/home/claude/pa/tests/toy_indirect.c functions=3 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=mask module=/home/claude/pa/tests/hijack_poc.c functions=2 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=mask module=/home/claude/pa/tests/mask_attack_poc.c functions=3 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=pcrel k=22 module=/home/claude/pa/tests/toy_indirect.c functions=3 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=pcrel k=22 module=/home/claude/pa/tests/hijack_poc.c functions=2 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=pcrel k=22 module=/home/claude/pa/tests/mask_attack_poc.c functions=3 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=aligned k=22 module=/home/claude/pa/tests/toy_indirect.c functions=3 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=aligned k=22 module=/home/claude/pa/tests/hijack_poc.c functions=2 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=aligned k=22 module=/home/claude/pa/tests/mask_attack_poc.c functions=3 indirect-calls-clamped=1 fakeplt-trampolines=0
+### microbenchmarks
+[jail] mode=mask module=/home/claude/pa/bench/indirect_micro.c functions=5 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=pcrel k=22 module=/home/claude/pa/bench/indirect_micro.c functions=5 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=aligned k=22 module=/home/claude/pa/bench/indirect_micro.c functions=5 indirect-calls-clamped=1 fakeplt-trampolines=0
+### sqlite (CLI, bench, speedtest1)
+/usr/bin/aarch64-linux-gnu-ld.bfd: /usr/aarch64-linux-gnu/lib/libc_nonshared.a(atexit.oS): warning: BTI turned on by -z force-bti when all inputs do not have BTI in NOTE section.
+[jail] mode=mask module=/home/claude/pa/bench/sqlite_bench.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=mask module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/speedtest1.c functions=30 indirect-calls-clamped=7 fakeplt-trampolines=0
+[jail] mode=mask module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/shell.c functions=410 indirect-calls-clamped=129 fakeplt-trampolines=3
+[jail] mode=mask module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+[jail] mode=mask module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+[jail] mode=mask module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+/usr/bin/aarch64-linux-gnu-ld.bfd: /usr/aarch64-linux-gnu/lib/libc_nonshared.a(atexit.oS): warning: BTI turned on by -z force-bti when all inputs do not have BTI in NOTE section.
+[jail] mode=pcrel k=22 module=/home/claude/pa/bench/sqlite_bench.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=pcrel k=22 module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/speedtest1.c functions=30 indirect-calls-clamped=7 fakeplt-trampolines=0
+[jail] mode=pcrel k=22 module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/shell.c functions=410 indirect-calls-clamped=129 fakeplt-trampolines=3
+[jail] mode=pcrel k=22 module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+[jail] mode=pcrel k=22 module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+[jail] mode=pcrel k=22 module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+/usr/bin/aarch64-linux-gnu-ld.bfd: /usr/aarch64-linux-gnu/lib/libc_nonshared.a(atexit.oS): warning: BTI turned on by -z force-bti when all inputs do not have BTI in NOTE section.
+[jail] mode=aligned k=22 module=/home/claude/pa/bench/sqlite_bench.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=aligned k=22 module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/speedtest1.c functions=30 indirect-calls-clamped=7 fakeplt-trampolines=0
+[jail] mode=aligned k=22 module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/shell.c functions=410 indirect-calls-clamped=129 fakeplt-trampolines=3
+[jail] mode=aligned k=22 module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+[jail] mode=aligned k=22 module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+[jail] mode=aligned k=22 module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+/usr/bin/aarch64-linux-gnu-ld.bfd: /usr/aarch64-linux-gnu/lib/libc_nonshared.a(atexit.oS): warning: BTI turned on by -z force-bti when all inputs do not have BTI in NOTE section.
+[jail] mode=mask module=/home/claude/pa/bench/sqlite_bench.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=mask module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=0
+[jail] mode=audit module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/shell.c functions=410 indirect-calls-clamped=129 fakeplt-trampolines=0
+[jail] mode=audit module=/home/claude/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=0
+/usr/bin/aarch64-linux-gnu-ld.bfd: /usr/aarch64-linux-gnu/lib/libc_nonshared.a(atexit.oS): warning: BTI turned on by -z force-bti when all inputs do not have BTI in NOTE section.
+### redis
+/home/claude/pa/targets/dl/redis-7.2.5.tar.gz: OK
+### redis base (JAIL=none)
+-rwxr-xr-x 1 root root 6112024 Nov  4 11:26 /home/claude/pa/targets/redis-base/src/redis-server
+### redis mask (JAIL=mask)
+-rwxr-xr-x 1 root root 6204264 Nov  4 11:27 /home/claude/pa/targets/redis-mask/src/redis-server
+### redis pcrel (JAIL=pcrel)
+-rwxr-xr-x 1 root root 6204720 Nov  4 11:27 /home/claude/pa/targets/redis-pcrel/src/redis-server
+### redis aligned (JAIL=aligned)
+-rwxr-xr-x 1 root root 12429520 Nov  4 11:28 /home/claude/pa/targets/redis-aligned/src/redis-server
+total 46864
+drwxr-xr-x 2 root root     4096 Nov  4 11:28 .
+drwxr-xr-x 5 root root     4096 Nov  4 11:21 ..
+-rwxr-xr-x 1 root root  4200184 Nov  4 11:21 attack_aligned
+-rwxr-xr-x 1 root root    71312 Nov  4 11:21 attack_mask
+-rwxr-xr-x 1 root root    71376 Nov  4 11:21 attack_pcrel
+-rwxr-xr-x 1 root root    70128 Nov  4 11:21 bti_probe
+-rwxr-xr-x 1 root root    70168 Nov  4 11:21 cmicroR_A
+-rwxr-xr-x 1 root root    70168 Nov  4 11:21 cmicroR_B
+-rwxr-xr-x 1 root root    70168 Nov  4 11:21 cmicroR_C
+-rwxr-xr-x 1 root root    70168 Nov  4 11:21 cmicroR_D
+-rwxr-xr-x 1 root root    70168 Nov  4 11:21 cmicroR_NONE
+-rwxr-xr-x 1 root root    70168 Nov  4 11:21 cmicro_A
+-rwxr-xr-x 1 root root    70168 Nov  4 11:21 cmicro_B
+-rwxr-xr-x 1 root root    70168 Nov  4 11:21 cmicro_C
+-rwxr-xr-x 1 root root    70168 Nov  4 11:21 cmicro_D
+-rwxr-xr-x 1 root root    70168 Nov  4 11:21 cmicro_NONE
+-rw-r--r-- 1 root root      189 Nov  4 11:24 fakeplt_sqlite_aligned.txt
+-rw-r--r-- 1 root root        0 Nov  4 11:21 fakeplt_sqlite_base.txt
+-rw-r--r-- 1 root root      189 Nov  4 11:23 fakeplt_sqlite_mask.txt
+-rw-r--r-- 1 root root      189 Nov  4 11:24 fakeplt_sqlite_pcrel.txt
+-rwxr-xr-x 1 root root  4200216 Nov  4 11:21 micro_aligned
+-rwxr-xr-x 1 root root    70080 Nov  4 11:21 micro_base
+-rwxr-xr-x 1 root root    71344 Nov  4 11:21 micro_mask
+-rwxr-xr-x 1 root root    71408 Nov  4 11:21 micro_pcrel
+-rwxr-xr-x 1 root root  4200184 Nov  4 11:21 poc_aligned
+-rwxr-xr-x 1 root root    70048 Nov  4 11:21 poc_base
+-rwxr-xr-x 1 root root    71312 Nov  4 11:21 poc_mask
+-rwxr-xr-x 1 root root    71376 Nov  4 11:21 poc_pcrel
+-rwxr-xr-x 1 root root  1504096 Nov  4 11:28 redis-benchmark
+-rwxr-xr-x 1 root root  1237480 Nov  4 11:28 redis-cli
+-rwxr-xr-x 1 root root 12429520 Nov  4 11:28 redis-server_aligned
+-rwxr-xr-x 1 root root  6112024 Nov  4 11:28 redis-server_base
+-rwxr-xr-x 1 root root  6204264 Nov  4 11:28 redis-server_mask
+-rwxr-xr-x 1 root root  6204720 Nov  4 11:28 redis-server_pcrel
+-rwxr-xr-x 1 root root  4293520 Nov  4 11:25 speedtest1_aligned
+-rwxr-xr-x 1 root root  1341760 Nov  4 11:22 speedtest1_base
+-rwxr-xr-x 1 root root  1409856 Nov  4 11:23 speedtest1_mask
+-rwxr-xr-x 1 root root  1409896 Nov  4 11:24 speedtest1_pcrel
+-rwxr-xr-x 1 root root  4291320 Nov  4 11:25 sqlbench_aligned
+-rwxr-xr-x 1 root root  1273960 Nov  4 11:22 sqlbench_base
+-rwxr-xr-x 1 root root  1342096 Nov  4 11:23 sqlbench_mask
+-rwxr-xr-x 1 root root  1340592 Nov  4 11:25 sqlbench_mask_nofp
+-rwxr-xr-x 1 root root  1342160 Nov  4 11:24 sqlbench_pcrel
+-rwxr-xr-x 1 root root  4314048 Nov  4 11:25 sqlite3_aligned
+-rwxr-xr-x 1 root root  1690832 Nov  4 11:26 sqlite3_audit
+-rwxr-xr-x 1 root root  1624240 Nov  4 11:22 sqlite3_base
+-rwxr-xr-x 1 root root  1692528 Nov  4 11:23 sqlite3_mask
+-rwxr-xr-x 1 root root  1692568 Nov  4 11:24 sqlite3_pcrel
+-rwxr-xr-x 1 root root  4200080 Nov  4 11:21 toy_aligned
+-rwxr-xr-x 1 root root    69944 Nov  4 11:21 toy_base
+-rwxr-xr-x 1 root root    71208 Nov  4 11:21 toy_mask
+-rwxr-xr-x 1 root root    71272 Nov  4 11:21 toy_pcrel

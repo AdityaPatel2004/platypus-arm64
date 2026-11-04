@@ -1,0 +1,18 @@
+date: 2026-11-04T11:49:34+0000
+name: redis
+reps: 10
+core: -
+host: claude aarch64 6.8.0-138-generic
+config base: bench/redis_run.sh /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-server_base /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-benchmark /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-cli 40000
+config mask: bench/redis_run.sh /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-server_mask /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-benchmark /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-cli 40000
+config pcrel: bench/redis_run.sh /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-server_pcrel /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-benchmark /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-cli 40000
+config aligned: bench/redis_run.sh /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-server_aligned /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-benchmark /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-cli 40000
+date: 2026-11-04T11:50:48+0000
+name: redis
+reps: 11
+core: -
+host: claude aarch64 6.8.0-138-generic
+config base: bench/redis_run.sh /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-server_base /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-benchmark /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-cli 40000
+config mask: bench/redis_run.sh /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-server_mask /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-benchmark /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-cli 40000
+config pcrel: bench/redis_run.sh /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-server_pcrel /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-benchmark /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-cli 40000
+config aligned: bench/redis_run.sh /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-server_aligned /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-benchmark /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/redis-cli 40000

@@ -13,6 +13,8 @@
 #   JAIL=mask      Option B: or/and masks loaded from a read-only page (default)
 #   JAIL=pcrel     Option D: base-relative clamp, no stored masks; JAIL_K=<k>
 #                  sets the window to 2^k bytes (default 22 = 4 MiB)
+#   JAIL=aligned   Option C: aligned jail; links with -z max-page-size=2^JAIL_K so
+#                  the kernel places the module on a 2^k boundary
 #   JAIL=check|audit   diagnostic runtimes (see pass/JailPass.cpp)
 #   JAIL_NO_FAKEPLT=1  ablation: no address-taken-import stubs
 #
@@ -62,6 +64,7 @@ if [ "$link" = 1 ] && [ "$shared" = 0 ]; then
   post=("$GCCLIB/crtendS.o")
   [ "$hard" = 1 ] && post=("$RTDIR/jail_rt.o" "${post[@]}")
   [ -n "${A64_LINKFLAGS:-}" ] && post+=(${A64_LINKFLAGS})
+  [ "${JAIL:-}" = aligned ] && post+=(-Wl,-z,max-page-size=$((1 << ${JAIL_K:-22})))
   exec "$DRV" "${args[@]}" "${pre[@]}" "$@" "${post[@]}" 2> >(tee -a "$WARNLOG" >&2)
 elif [ "$link" = 1 ] && [ "$shared" = 1 ]; then
   pre=("${LDSEL[@]}" -Wl,-z,force-bti -Wl,-z,now -Wl,-z,relro)

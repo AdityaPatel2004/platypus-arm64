@@ -1,0 +1,8 @@
+date: 2026-11-04T11:44:16+0000
+name: sqlite_layout
+reps: 20
+core: 1
+host: claude aarch64 6.8.0-138-generic
+config base: /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/sqlbench_base 100000 100000
+config al64: /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/sqlbench_base_al64 100000 100000
+config al32: /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/sqlbench_base_al32 100000 100000

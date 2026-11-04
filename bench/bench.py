@@ -8,6 +8,9 @@ equally; every rep's checksum must equal the base's or the run stops.
 
   bench.py NAME REPS CORE base='cmd' mask='cmd' pcrel='cmd' [aa='cmd' ...]
 
+APPEND=1 adds REPS more interleaved rounds to an existing CSV (same configs),
+so a long benchmark can be split over several sessions.
+
 Writes results/bench_NAME.csv (config,rep,seconds) and results/bench_NAME.meta,
 then prints per-config median/IQR and, for every non-base config, the overhead
 vs base: median difference, 95% bootstrap CI, two-sided permutation p.
@@ -65,16 +68,22 @@ def main():
     assert cfgs[0][0] == "base", "first config must be base"
     os.makedirs(f"{ROOT}/results", exist_ok=True)
     csvp, metap = f"{ROOT}/results/bench_{name}.csv", f"{ROOT}/results/bench_{name}.meta"
-    with open(metap, "w") as m:
+    append = os.environ.get("APPEND") == "1" and os.path.exists(csvp)
+    start = 1
+    if append:
+        with open(csvp) as f:
+            start = max([int(r["rep"]) for r in csv.DictReader(f)] or [0]) + 1
+    with open(metap, "a" if append else "w") as m:
         m.write(f"date: {time.strftime('%Y-%m-%dT%H:%M:%S%z')}\nname: {name}\nreps: {reps}\ncore: {core}\n")
         m.write(f"host: {platform.node()} {platform.machine()} {platform.release()}\n")
         for c, cmd in cfgs: m.write(f"config {c}: {cmd}\n")
     for c, cmd in cfgs:                                   # warm-up + checksum gate
         run(cmd, core)
     ref = run(cfgs[0][1], core)[1]
-    with open(csvp, "w", newline="") as f:
-        w = csv.writer(f); w.writerow(["config", "rep", "seconds"])
-        for r in range(1, reps + 1):
+    with open(csvp, "a" if append else "w", newline="") as f:
+        w = csv.writer(f)
+        if not append: w.writerow(["config", "rep", "seconds"])
+        for r in range(start, start + reps):
             for c, cmd in cfgs:
                 s, chk = run(cmd, core)
                 if chk != ref:

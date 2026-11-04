@@ -45,10 +45,10 @@ make[2]: Entering directory '/home/claude/pa/targets/redis-base/deps'
 (rm -f .make-*)
 (echo "" > .make-cflags)
 (echo "" > .make-ldflags)
-[32;1mMAKE[0m [37;1mlinenoise[0m
 [32;1mMAKE[0m [37;1mhiredis[0m
-cd linenoise && make
 cd hiredis && make static 
+[32;1mMAKE[0m [37;1mlinenoise[0m
+cd linenoise && make
 make[3]: Entering directory '/home/claude/pa/targets/redis-base/deps/hiredis'
 make[3]: Entering directory '/home/claude/pa/targets/redis-base/deps/linenoise'
 /home/claude/pa/bin/a64cc  -Wall -Os -g  -c linenoise.c
@@ -56,39 +56,39 @@ make[3]: Entering directory '/home/claude/pa/targets/redis-base/deps/linenoise'
 /home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic net.c
 /home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic hiredis.c
 make[3]: Leaving directory '/home/claude/pa/targets/redis-base/deps/linenoise'
-/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic sds.c
-/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic async.c
-/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic read.c
-/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic sockcompat.c
 [32;1mMAKE[0m [37;1mlua[0m
 cd lua/src && make all CFLAGS="-Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2 " MYLDFLAGS="" AR="ar rc"
 make[3]: Entering directory '/home/claude/pa/targets/redis-base/deps/lua/src'
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lapi.o lapi.c
+/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic sds.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lcode.o lcode.c
+/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic async.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ldebug.o ldebug.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ldo.o ldo.c
+/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic read.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ldump.o ldump.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lfunc.o lfunc.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lgc.o lgc.c
+/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic sockcompat.c
 ar rcs libhiredis.a alloc.o net.o hiredis.o sds.o async.o read.o sockcompat.o
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o llex.o llex.c
 make[3]: Leaving directory '/home/claude/pa/targets/redis-base/deps/hiredis'
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lmem.o lmem.c
 [32;1mMAKE[0m [37;1mhdr_histogram[0m
 cd hdr_histogram && make
 make[3]: Entering directory '/home/claude/pa/targets/redis-base/deps/hdr_histogram'
 /home/claude/pa/bin/a64cc -std=c99 -Wall -Os -g  -DHDR_MALLOC_INCLUDE=\"hdr_redis_malloc.h\" -c  hdr_histogram.c 
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lcode.o lcode.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lobject.o lobject.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lopcodes.o lopcodes.c
 ar rcs libhdrhistogram.a hdr_histogram.o
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lparser.o lparser.c
 make[3]: Leaving directory '/home/claude/pa/targets/redis-base/deps/hdr_histogram'
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ldebug.o ldebug.c
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ldo.o ldo.c
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ldump.o ldump.c
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lfunc.o lfunc.c
 [32;1mMAKE[0m [37;1mfpconv[0m
 cd fpconv && make
 make[3]: Entering directory '/home/claude/pa/targets/redis-base/deps/fpconv'
 /home/claude/pa/bin/a64cc  -Wall -Os -g  -c  fpconv_dtoa.c 
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lgc.o lgc.c
 ar rcs libfpconv.a fpconv_dtoa.o
 make[3]: Leaving directory '/home/claude/pa/targets/redis-base/deps/fpconv'
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o llex.o llex.c
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lmem.o lmem.c
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lobject.o lobject.c
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lopcodes.o lopcodes.c
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lparser.o lparser.c
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lstate.o lstate.c
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lstring.o lstring.c
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ltable.o ltable.c

@@ -29,6 +29,17 @@
 //    (default 22 = 4 MiB) and is checked against the real module size by the
 //    runtime at start-up (abort if the module does not fit).
 //
+//  aligned (Option C, NaCl-style aligned jail, placed by the kernel)
+//      adrp x16, __ehdr_start        ; module base (hoistable, off the data path)
+//      and  x16, x16, #~(2^k-1)      ; aligned block base (hoistable)
+//      bfxil x16', xt, #0, #k        ; or: and xt,#(2^k-1) ; orr xt,xt,x16
+//      blr  xt
+//    The executable is linked with -z max-page-size=2^k, so every PT_LOAD has
+//    p_align = 2^k and Linux (>= 5.10; glibc >= 2.35 for shared libraries)
+//    places the module on a 2^k boundary. No custom loader is needed. The
+//    trade: ASLR keeps (k - 12) fewer bits of entropy for this module.
+//    The runtime verifies the module really sits inside the aligned block.
+//
 // Diagnostic (non-default) modes:
 //   check : t' = __jail_check(t)  -> clamps (Option B) and logs every bend.
 //   audit : t' = __jail_audit(t)  -> returns t unchanged, counts out-of-jail
@@ -57,6 +68,7 @@
 // final binary and reports every unclamped indirect branch.
 //===----------------------------------------------------------------------===//
 #include "llvm/IR/IRBuilder.h"
+#include "llvm/IR/InlineAsm.h"
 #include "llvm/IR/InstIterator.h"
 #include "llvm/IR/Module.h"
 #include "llvm/IR/PassManager.h"
@@ -141,9 +153,10 @@ struct JailPass : PassInfoMixin<JailPass> {
     Type *I8 = Type::getInt8Ty(C);
 
     std::string Mode = envOr("JAIL_MODE", "JAIL", "mask");
-    bool mask = Mode == "mask", pcrel = Mode == "pcrel";
+    bool mask = Mode == "mask", pcrel = Mode == "pcrel" || Mode == "aligned";
+    bool aligned = Mode == "aligned";
     bool check = Mode == "check", audit = Mode == "audit";
-    if (!mask && !pcrel && !check && !audit) {
+    if (!mask && !pcrel && !aligned && !check && !audit) {
       errs() << "[jail] unknown JAIL mode=" << Mode << ", using mask\n";
       mask = true; Mode = "mask";
     }
@@ -177,6 +190,11 @@ struct JailPass : PassInfoMixin<JailPass> {
                                       ConstantInt::get(I64, K), "__jail_pcrel_k");
         kg->setVisibility(GlobalValue::HiddenVisibility);
       }
+      if (aligned && !M.getGlobalVariable("__jail_aligned")) {
+        auto *ag = new GlobalVariable(M, I64, true, GlobalValue::WeakODRLinkage,
+                                      ConstantInt::get(I64, 1), "__jail_aligned");
+        ag->setVisibility(GlobalValue::HiddenVisibility);
+      }
     } else {
       rt = M.getOrInsertFunction(check ? "__jail_check" : "__jail_audit", I64, I64);
     }
@@ -193,6 +211,16 @@ struct JailPass : PassInfoMixin<JailPass> {
         }
     }
 
+    // Options C/D: the module base is read with one `adrp` per call site,
+    // emitted as side-effecting inline asm. That keeps the whole clamp glued to
+    // its call: a pure computation would be hoisted/CSE'd by the optimiser and
+    // the clamped pointer could then be spilled to the stack and reloaded right
+    // before the call, where a stack-write bug could replace it (seen in an
+    // earlier build; tools/asm_audit.py catches it). __ehdr_start is
+    // page-aligned (the module's first byte), so adrp alone gives it exactly.
+    InlineAsm *adrpBase = InlineAsm::get(FunctionType::get(I64, false),
+                                         "adrp $0, __ehdr_start", "=r",
+                                         /*hasSideEffects=*/true);
     unsigned nClamped = 0, nFns = 0;
     uint64_t lowMask = (K >= 64) ? ~0ULL : ((1ULL << K) - 1);
     for (Function &F : M) {
@@ -214,8 +242,15 @@ struct JailPass : PassInfoMixin<JailPass> {
           Value *orm = B.CreateLoad(I64, orp, "jail.or");
           Value *anm = B.CreateLoad(I64, anp, "jail.and");
           cl = B.CreateAnd(B.CreateOr(ti, orm, "jail.floor"), anm, "jail.ceil");
+        } else if (aligned) {
+          // (t & (2^k-1)) | (base & ~(2^k-1)): a bit-field insert, one op on
+          // the target's dependency chain; base & ~m is loop-invariant
+          Value *base = B.CreateCall(adrpBase, {}, "jail.base");
+          Value *blk = B.CreateAnd(base, ConstantInt::get(I64, ~lowMask), "jail.blk");
+          cl = B.CreateOr(B.CreateAnd(ti, ConstantInt::get(I64, lowMask), "jail.low"),
+                          blk, "jail.in");
         } else if (pcrel) {
-          Value *base = B.CreatePtrToInt(ehdr, I64, "jail.base");
+          Value *base = B.CreateCall(adrpBase, {}, "jail.base");
           Value *off = B.CreateAnd(B.CreateSub(ti, base, "jail.off"),
                                    ConstantInt::get(I64, lowMask), "jail.wrap");
           cl = B.CreateAdd(off, base, "jail.in");

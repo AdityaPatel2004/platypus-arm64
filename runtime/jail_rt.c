@@ -8,9 +8,10 @@
  *    module, writes ormask/andmask, then makes the page holding them READ-ONLY
  *    (mprotect), so a memory-corruption bug cannot rewrite the jail bounds.
  *    PLaTypus gets the same property by keeping its masks in RELRO'd GOT slots.
- *  - pcrel mode (Option D): nothing is stored; the clamp computes the base from
- *    the PC. The constructor only VERIFIES that the module fits in the 2^k
- *    window the code was compiled for, and aborts if it does not.
+ *  - pcrel (Option D) / aligned (Option C): nothing is stored; the clamp
+ *    computes the base from the PC. The constructor only VERIFIES that the
+ *    module's executable code fits in the 2^k window the code was compiled for,
+ *    and aborts if it does not.
  *
  * Fail-closed: the masks start as {0, 0}, so an indirect call made before the
  * constructor runs is clamped to address 0 and crashes instead of escaping.
@@ -38,10 +39,12 @@ struct jail_masks __jail_masks;
 
 /* Option D: k recorded by the pass (absent unless the module was built pcrel) */
 extern const uint64_t __jail_pcrel_k __attribute__((weak, visibility("hidden")));
+/* Option C: present when built JAIL=aligned (window = aligned 2^k block) */
+extern const uint64_t __jail_aligned __attribute__((weak, visibility("hidden")));
 extern const char __ehdr_start[] __attribute__((visibility("hidden")));
 
 static unsigned long jail_audited = 0, jail_oob = 0;
-static uintptr_t win_lo, win_hi, mod_lo, mod_hi;
+static uintptr_t win_lo, win_hi, mod_lo, mod_hi, x_lo, x_hi;  /* x_: executable segments only */
 
 struct find_ctx { uintptr_t self; int found; };
 
@@ -49,15 +52,17 @@ static int find_self(struct dl_phdr_info *info, size_t sz, void *data) {
     (void)sz;
     struct find_ctx *fc = (struct find_ctx *)data;
     uintptr_t base = (uintptr_t)info->dlpi_addr, lo = UINTPTR_MAX, hi = 0;
+    uintptr_t xl = UINTPTR_MAX, xh = 0;
     for (int i = 0; i < info->dlpi_phnum; i++) {
         const ElfW(Phdr) *p = &info->dlpi_phdr[i];
         if (p->p_type != PT_LOAD) continue;
         uintptr_t s = base + p->p_vaddr, e = s + p->p_memsz;
         if (s < lo) lo = s;
         if (e > hi) hi = e;
+        if (p->p_flags & PF_X) { if (s < xl) xl = s; if (e > xh) xh = e; }
     }
     if (hi == 0 || !(fc->self >= lo && fc->self < hi)) return 0;  /* not us */
-    mod_lo = lo; mod_hi = hi; fc->found = 1;
+    mod_lo = lo; mod_hi = hi; x_lo = xl; x_hi = xh; fc->found = 1;
     return 1;
 }
 
@@ -94,21 +99,25 @@ static void __jail_init(void) {
     int verbose = getenv("JAIL_VERBOSE") != NULL;
     uintptr_t span = mod_hi - mod_lo;
 
-    if (&__jail_pcrel_k) {                         /* Option D: verify only */
+    if (&__jail_pcrel_k) {                   /* Options C/D: verify only */
         uint64_t k = __jail_pcrel_k;
         uintptr_t base = (uintptr_t)__ehdr_start;
+        if (&__jail_aligned) base &= ~(((uintptr_t)1 << k) - 1);   /* Option C */
         win_lo = base; win_hi = base + ((uintptr_t)1 << k);
-        if (base != mod_lo || mod_hi > win_hi) {
-            fprintf(stderr, "[jail] module [%#lx,%#lx) span=%#lx does not fit "
-                    "pcrel window 2^%lu from %#lx; rebuild with larger JAIL_K\n",
-                    (unsigned long)mod_lo, (unsigned long)mod_hi,
-                    (unsigned long)span, (unsigned long)k, (unsigned long)base);
-            jail_die("pcrel window too small");
+        /* every executable byte of the module must be inside the window (data
+         * may lie outside: an indirect call into data faults anyway) */
+        if (x_lo < win_lo || x_hi > win_hi) {
+            fprintf(stderr, "[jail] module code [%#lx,%#lx) does not fit the "
+                    "%s window 2^%lu at %#lx; rebuild with larger JAIL_K\n",
+                    (unsigned long)x_lo, (unsigned long)x_hi,
+                    &__jail_aligned ? "aligned" : "pcrel",
+                    (unsigned long)k, (unsigned long)base);
+            jail_die("clamp window too small for the module's code");
         }
         if (verbose)
-            fprintf(stderr, "[jail] pcrel module [%#lx,%#lx) span=%#lx window 2^%lu "
-                    "[%#lx,%#lx)\n", (unsigned long)mod_lo, (unsigned long)mod_hi,
-                    (unsigned long)span, (unsigned long)k,
+            fprintf(stderr, "[jail] %s module code [%#lx,%#lx) window 2^%lu "
+                    "[%#lx,%#lx)\n", &__jail_aligned ? "aligned" : "pcrel",
+                    (unsigned long)x_lo, (unsigned long)x_hi, (unsigned long)k,
                     (unsigned long)win_lo, (unsigned long)win_hi);
     }
 

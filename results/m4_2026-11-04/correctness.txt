@@ -1,0 +1,43 @@
+### SQLite battery, 4 storage modes
+mem     base         exit=0   md5=fc7278020e81021c ok
+mem     sqlite3_mask exit=0   md5=fc7278020e81021c ok
+mem     sqlite3_pcrel exit=0   md5=fc7278020e81021c ok
+mem     sqlite3_aligned exit=0   md5=fc7278020e81021c ok
+delete  base         exit=0   md5=9d3abcb927469709 ok
+delete  sqlite3_mask exit=0   md5=9d3abcb927469709 ok
+delete  sqlite3_pcrel exit=0   md5=9d3abcb927469709 ok
+delete  sqlite3_aligned exit=0   md5=9d3abcb927469709 ok
+wal     base         exit=0   md5=57d3c2a51ad7babb ok
+wal     sqlite3_mask exit=0   md5=57d3c2a51ad7babb ok
+wal     sqlite3_pcrel exit=0   md5=57d3c2a51ad7babb ok
+wal     sqlite3_aligned exit=0   md5=57d3c2a51ad7babb ok
+mmap    base         exit=0   md5=4b2bc709114b6db5 ok
+mmap    sqlite3_mask exit=0   md5=4b2bc709114b6db5 ok
+mmap    sqlite3_pcrel exit=0   md5=4b2bc709114b6db5 ok
+mmap    sqlite3_aligned exit=0   md5=4b2bc709114b6db5 ok
+ALL IDENTICAL
+
+### original 21-Oct battery (:memory:)
+base afbbd05eb9ca0102
+mask afbbd05eb9ca0102
+pcrel afbbd05eb9ca0102
+aligned afbbd05eb9ca0102
+
+### speedtest1 --size 60 --verify (on disk)
+base 1.560 f99b2520c28647595d25eab8bc01f582957f222537b63875
+mask 1.496 f99b2520c28647595d25eab8bc01f582957f222537b63875
+pcrel 1.478 f99b2520c28647595d25eab8bc01f582957f222537b63875
+aligned 1.474 f99b2520c28647595d25eab8bc01f582957f222537b63875
+
+### redis command script + benchmark smoke (n=20000)
+base 0.718000 d285c4224c65
+mask 0.720000 d285c4224c65
+pcrel 0.717000 d285c4224c65
+aligned 0.710000 d285c4224c65
+
+### sqlite_bench checksums
+base mem=900000 disk=900000
+mask mem=900000 disk=900000
+pcrel mem=900000 disk=900000
+aligned mem=900000 disk=900000
+mask_nofp mem=900000 disk=

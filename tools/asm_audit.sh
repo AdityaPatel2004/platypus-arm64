@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# SUPERSEDED by tools/asm_audit.py (4 Nov 2026): this version ignores `br` and only
+# matches an `and` with the same register; kept for the record.
 # asm_audit.sh — completeness check on a HARDENED binary. For every indirect
 # CALL `blr xT`, verify a clamp wrote xT shortly before: an `and xT, ...`
 # (the ceiling op of the clamp) within K instructions. This is register-precise,

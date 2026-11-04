@@ -1,0 +1,7 @@
+date: 2026-11-04T11:55:49+00:00
+host: Linux claude 6.8.0-138-generic #138~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Fri Aug  7 13:34:27 UTC  aarch64 aarch64 aarch64 GNU/Linux
+cpu: CPU implementer	: 0x61 features: dit paca pacg bti 
+vcpus: 4  mem: 3 GiB
+guest OS: Ubuntu 22.04.5 LTS kernel 6.8.0-138-generic
+runtime glibc used by the binaries: Ubuntu 24.04 libc6 2.39-0ubuntu8 (cross package copy at /tmp/rt239, PT_INTERP + RPATH)
+compiler: Ubuntu clang 20.1.2 (noble-updates) + binutils 2.42 (aarch64-linux-gnu), gcc-13 crt objects

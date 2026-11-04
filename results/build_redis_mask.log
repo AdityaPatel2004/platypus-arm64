@@ -45,10 +45,10 @@ make[2]: Entering directory '/home/claude/pa/targets/redis-mask/deps'
 (rm -f .make-*)
 (echo "" > .make-cflags)
 (echo "" > .make-ldflags)
-[32;1mMAKE[0m [37;1mhiredis[0m
-cd hiredis && make static 
 [32;1mMAKE[0m [37;1mlinenoise[0m
 cd linenoise && make
+[32;1mMAKE[0m [37;1mhiredis[0m
+cd hiredis && make static 
 make[3]: Entering directory '/home/claude/pa/targets/redis-mask/deps/hiredis'
 make[3]: Entering directory '/home/claude/pa/targets/redis-mask/deps/linenoise'
 /home/claude/pa/bin/a64cc  -Wall -Os -g  -c linenoise.c
@@ -57,106 +57,106 @@ make[3]: Entering directory '/home/claude/pa/targets/redis-mask/deps/linenoise'
 /home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic net.c
 [jail] mode=mask module=linenoise.c functions=30 indirect-calls-clamped=3 fakeplt-trampolines=0
 [jail] mode=mask module=net.c functions=17 indirect-calls-clamped=18 fakeplt-trampolines=0
-/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic hiredis.c
 make[3]: Leaving directory '/home/claude/pa/targets/redis-mask/deps/linenoise'
-/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic sds.c
-[jail] mode=mask module=hiredis.c functions=46 indirect-calls-clamped=44 fakeplt-trampolines=5
-[jail] mode=mask module=sds.c functions=40 indirect-calls-clamped=31 fakeplt-trampolines=0
-/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic async.c
-/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic read.c
-[jail] mode=mask module=async.c functions=32 indirect-calls-clamped=116 fakeplt-trampolines=0
-/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic sockcompat.c
-[jail] mode=mask module=read.c functions=7 indirect-calls-clamped=42 fakeplt-trampolines=0
-[jail] mode=mask module=sockcompat.c functions=0 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic hiredis.c
 [32;1mMAKE[0m [37;1mlua[0m
 cd lua/src && make all CFLAGS="-Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2 " MYLDFLAGS="" AR="ar rc"
 make[3]: Entering directory '/home/claude/pa/targets/redis-mask/deps/lua/src'
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lapi.o lapi.c
-ar rcs libhiredis.a alloc.o net.o hiredis.o sds.o async.o read.o sockcompat.o
-make[3]: Leaving directory '/home/claude/pa/targets/redis-mask/deps/hiredis'
-[32;1mMAKE[0m [37;1mhdr_histogram[0m
-cd hdr_histogram && make
-make[3]: Entering directory '/home/claude/pa/targets/redis-mask/deps/hdr_histogram'
-/home/claude/pa/bin/a64cc -std=c99 -Wall -Os -g  -DHDR_MALLOC_INCLUDE=\"hdr_redis_malloc.h\" -c  hdr_histogram.c 
+[jail] mode=mask module=hiredis.c functions=46 indirect-calls-clamped=44 fakeplt-trampolines=5
 [jail] mode=mask module=lapi.c functions=73 indirect-calls-clamped=0 fakeplt-trampolines=0
-[jail] mode=mask module=hdr_histogram.c functions=48 indirect-calls-clamped=7 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic sds.c
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lcode.o lcode.c
-ar rcs libhdrhistogram.a hdr_histogram.o
-make[3]: Leaving directory '/home/claude/pa/targets/redis-mask/deps/hdr_histogram'
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ldebug.o ldebug.c
-[jail] mode=mask module=ldebug.c functions=18 indirect-calls-clamped=0 fakeplt-trampolines=0
 [jail] mode=mask module=lcode.c functions=37 indirect-calls-clamped=0 fakeplt-trampolines=0
-[32;1mMAKE[0m [37;1mfpconv[0m
-cd fpconv && make
-make[3]: Entering directory '/home/claude/pa/targets/redis-mask/deps/fpconv'
-/home/claude/pa/bin/a64cc  -Wall -Os -g  -c  fpconv_dtoa.c 
+[jail] mode=mask module=sds.c functions=40 indirect-calls-clamped=31 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ldebug.o ldebug.c
+/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic async.c
+[jail] mode=mask module=ldebug.c functions=18 indirect-calls-clamped=0 fakeplt-trampolines=0
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ldo.o ldo.c
+[jail] mode=mask module=async.c functions=32 indirect-calls-clamped=116 fakeplt-trampolines=0
 [jail] mode=mask module=ldo.c functions=17 indirect-calls-clamped=8 fakeplt-trampolines=0
-[jail] mode=mask module=fpconv_dtoa.c functions=2 indirect-calls-clamped=0 fakeplt-trampolines=0
-ar rcs libfpconv.a fpconv_dtoa.o
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ldump.o ldump.c
-make[3]: Leaving directory '/home/claude/pa/targets/redis-mask/deps/fpconv'
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lfunc.o lfunc.c
+/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic read.c
 [jail] mode=mask module=ldump.c functions=2 indirect-calls-clamped=32 fakeplt-trampolines=0
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lgc.o lgc.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lfunc.o lfunc.c
 [jail] mode=mask module=lfunc.c functions=10 indirect-calls-clamped=0 fakeplt-trampolines=0
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o llex.o llex.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lgc.o lgc.c
+[jail] mode=mask module=read.c functions=7 indirect-calls-clamped=42 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic sockcompat.c
+[jail] mode=mask module=sockcompat.c functions=0 indirect-calls-clamped=0 fakeplt-trampolines=0
+ar rcs libhiredis.a alloc.o net.o hiredis.o sds.o async.o read.o sockcompat.o
 [jail] mode=mask module=lgc.c functions=16 indirect-calls-clamped=0 fakeplt-trampolines=0
-[jail] mode=mask module=llex.c functions=14 indirect-calls-clamped=0 fakeplt-trampolines=0
+make[3]: Leaving directory '/home/claude/pa/targets/redis-mask/deps/hiredis'
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o llex.o llex.c
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lmem.o lmem.c
 [jail] mode=mask module=lmem.c functions=3 indirect-calls-clamped=2 fakeplt-trampolines=0
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lobject.o lobject.c
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lopcodes.o lopcodes.c
-[jail] mode=mask module=lopcodes.c functions=0 indirect-calls-clamped=0 fakeplt-trampolines=0
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lparser.o lparser.c
+[jail] mode=mask module=llex.c functions=14 indirect-calls-clamped=0 fakeplt-trampolines=0
 [jail] mode=mask module=lobject.c functions=8 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lopcodes.o lopcodes.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lparser.o lparser.c
+[jail] mode=mask module=lopcodes.c functions=0 indirect-calls-clamped=0 fakeplt-trampolines=0
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lstate.o lstate.c
 [jail] mode=mask module=lstate.c functions=7 indirect-calls-clamped=2 fakeplt-trampolines=0
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lstring.o lstring.c
 [jail] mode=mask module=lstring.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ltable.o ltable.c
 [jail] mode=mask module=lparser.c functions=21 indirect-calls-clamped=0 fakeplt-trampolines=0
-[jail] mode=mask module=ltable.c functions=14 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ltable.o ltable.c
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ltm.o ltm.c
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lundump.o lundump.c
+[jail] mode=mask module=ltable.c functions=14 indirect-calls-clamped=0 fakeplt-trampolines=0
 [jail] mode=mask module=ltm.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lundump.o lundump.c
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lvm.o lvm.c
 [jail] mode=mask module=lundump.c functions=5 indirect-calls-clamped=0 fakeplt-trampolines=0
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lzio.o lzio.c
+[32;1mMAKE[0m [37;1mhdr_histogram[0m
+cd hdr_histogram && make
+make[3]: Entering directory '/home/claude/pa/targets/redis-mask/deps/hdr_histogram'
+/home/claude/pa/bin/a64cc -std=c99 -Wall -Os -g  -DHDR_MALLOC_INCLUDE=\"hdr_redis_malloc.h\" -c  hdr_histogram.c 
 [jail] mode=mask module=lvm.c functions=11 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lzio.o lzio.c
+[jail] mode=mask module=hdr_histogram.c functions=48 indirect-calls-clamped=7 fakeplt-trampolines=0
 [jail] mode=mask module=lzio.c functions=5 indirect-calls-clamped=3 fakeplt-trampolines=0
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o strbuf.o strbuf.c
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o fpconv.o fpconv.c
 [jail] mode=mask module=strbuf.c functions=7 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o fpconv.o fpconv.c
+ar rcs libhdrhistogram.a hdr_histogram.o
+make[3]: Leaving directory '/home/claude/pa/targets/redis-mask/deps/hdr_histogram'
+[32;1mMAKE[0m [37;1mfpconv[0m
+cd fpconv && make
+make[3]: Entering directory '/home/claude/pa/targets/redis-mask/deps/fpconv'
+/home/claude/pa/bin/a64cc  -Wall -Os -g  -c  fpconv_dtoa.c 
 [jail] mode=mask module=fpconv.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lauxlib.o lauxlib.c
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lbaselib.o lbaselib.c
-[jail] mode=mask module=lbaselib.c functions=39 indirect-calls-clamped=0 fakeplt-trampolines=0
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ldblib.o ldblib.c
+[jail] mode=mask module=fpconv_dtoa.c functions=2 indirect-calls-clamped=0 fakeplt-trampolines=0
 [jail] mode=mask module=lauxlib.c functions=38 indirect-calls-clamped=0 fakeplt-trampolines=0
-/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o liolib.o liolib.c
+ar rcs libfpconv.a fpconv_dtoa.o
+make[3]: Leaving directory '/home/claude/pa/targets/redis-mask/deps/fpconv'
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lbaselib.o lbaselib.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ldblib.o ldblib.c
+[jail] mode=mask module=lbaselib.c functions=39 indirect-calls-clamped=0 fakeplt-trampolines=0
 [jail] mode=mask module=ldblib.c functions=18 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o liolib.o liolib.c
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lmathlib.o lmathlib.c
-[jail] mode=mask module=liolib.c functions=28 indirect-calls-clamped=3 fakeplt-trampolines=0
 [jail] mode=mask module=lmathlib.c functions=29 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=mask module=liolib.c functions=28 indirect-calls-clamped=3 fakeplt-trampolines=0
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o loslib.o loslib.c
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ltablib.o ltablib.c
-[jail] mode=mask module=ltablib.c functions=12 indirect-calls-clamped=0 fakeplt-trampolines=0
 [jail] mode=mask module=loslib.c functions=12 indirect-calls-clamped=0 fakeplt-trampolines=0
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lstrlib.o lstrlib.c
+[jail] mode=mask module=ltablib.c functions=12 indirect-calls-clamped=0 fakeplt-trampolines=0
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o loadlib.o loadlib.c
 [jail] mode=mask module=loadlib.c functions=12 indirect-calls-clamped=0 fakeplt-trampolines=0
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o linit.o linit.c
+[jail] mode=mask module=lstrlib.c functions=22 indirect-calls-clamped=0 fakeplt-trampolines=0
 [jail] mode=mask module=linit.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=8
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lua_cjson.o lua_cjson.c
-[jail] mode=mask module=lstrlib.c functions=22 indirect-calls-clamped=0 fakeplt-trampolines=0
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lua_struct.o lua_struct.c
+[jail] mode=mask module=lua_struct.c functions=6 indirect-calls-clamped=0 fakeplt-trampolines=0
 [jail] mode=mask module=lua_cjson.c functions=25 indirect-calls-clamped=0 fakeplt-trampolines=0
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lua_cmsgpack.o lua_cmsgpack.c
-[jail] mode=mask module=lua_struct.c functions=6 indirect-calls-clamped=0 fakeplt-trampolines=0
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lua_bit.o lua_bit.c
-[jail] mode=mask module=lua_cmsgpack.c functions=33 indirect-calls-clamped=18 fakeplt-trampolines=0
 [jail] mode=mask module=lua_bit.c functions=13 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=mask module=lua_cmsgpack.c functions=33 indirect-calls-clamped=18 fakeplt-trampolines=0
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lua.o lua.c
 /home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o luac.o luac.c
 [jail] mode=mask module=lua.c functions=11 indirect-calls-clamped=0 fakeplt-trampolines=0
@@ -183,9 +183,9 @@ make[2]: Leaving directory '/home/claude/pa/targets/redis-mask/deps'
     [34mCC[0m [33msds.o[0m
 [jail] mode=mask module=sds.c functions=47 indirect-calls-clamped=1 fakeplt-trampolines=0
     [34mCC[0m [33mzmalloc.o[0m
+[jail] mode=mask module=server.c functions=198 indirect-calls-clamped=32 fakeplt-trampolines=24
 [jail] mode=mask module=zmalloc.c functions=31 indirect-calls-clamped=8 fakeplt-trampolines=0
     [34mCC[0m [33mlzf_c.o[0m
-[jail] mode=mask module=server.c functions=198 indirect-calls-clamped=32 fakeplt-trampolines=24
 [jail] mode=mask module=lzf_c.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mlzf_d.o[0m
 [jail] mode=mask module=lzf_d.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
@@ -194,12 +194,12 @@ make[2]: Leaving directory '/home/claude/pa/targets/redis-mask/deps'
     [34mCC[0m [33mzipmap.o[0m
 [jail] mode=mask module=zipmap.c functions=10 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33msha1.o[0m
-[jail] mode=mask module=sha1.c functions=4 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mziplist.o[0m
-[jail] mode=mask module=ziplist.c functions=35 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=mask module=sha1.c functions=4 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mrelease.o[0m
 [jail] mode=mask module=release.c functions=5 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mnetworking.o[0m
+[jail] mode=mask module=ziplist.c functions=35 indirect-calls-clamped=1 fakeplt-trampolines=0
     [34mCC[0m [33mutil.o[0m
 [jail] mode=mask module=util.c functions=33 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mobject.o[0m
@@ -208,16 +208,16 @@ make[2]: Leaving directory '/home/claude/pa/targets/redis-mask/deps'
     [34mCC[0m [33mdb.o[0m
     [34mCC[0m [33mreplication.o[0m
 [jail] mode=mask module=db.c functions=95 indirect-calls-clamped=3 fakeplt-trampolines=10
-[jail] mode=mask module=replication.c functions=86 indirect-calls-clamped=80 fakeplt-trampolines=3
     [34mCC[0m [33mrdb.o[0m
+[jail] mode=mask module=replication.c functions=86 indirect-calls-clamped=80 fakeplt-trampolines=3
     [34mCC[0m [33mt_string.o[0m
+[jail] mode=mask module=rdb.c functions=78 indirect-calls-clamped=174 fakeplt-trampolines=2
 [jail] mode=mask module=t_string.c functions=27 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mt_list.o[0m
-[jail] mode=mask module=t_list.c functions=57 indirect-calls-clamped=2 fakeplt-trampolines=0
-[jail] mode=mask module=rdb.c functions=78 indirect-calls-clamped=174 fakeplt-trampolines=2
     [34mCC[0m [33mt_set.o[0m
-[jail] mode=mask module=t_set.c functions=40 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=mask module=t_list.c functions=57 indirect-calls-clamped=2 fakeplt-trampolines=0
     [34mCC[0m [33mt_zset.o[0m
+[jail] mode=mask module=t_set.c functions=40 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mt_hash.o[0m
 [jail] mode=mask module=t_hash.c functions=43 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mconfig.o[0m
@@ -232,8 +232,8 @@ make[2]: Leaving directory '/home/claude/pa/targets/redis-mask/deps'
     [34mCC[0m [33mdebug.o[0m
     [34mCC[0m [33msort.o[0m
 [jail] mode=mask module=sort.c functions=6 indirect-calls-clamped=0 fakeplt-trampolines=1
-    [34mCC[0m [33mintset.o[0m
 [jail] mode=mask module=debug.c functions=40 indirect-calls-clamped=1 fakeplt-trampolines=0
+    [34mCC[0m [33mintset.o[0m
 [jail] mode=mask module=intset.c functions=11 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33msyncio.o[0m
     [34mCC[0m [33mcluster.o[0m
@@ -246,10 +246,10 @@ make[2]: Leaving directory '/home/claude/pa/targets/redis-mask/deps'
 [jail] mode=mask module=slowlog.c functions=6 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33meval.o[0m
 [jail] mode=mask module=eval.c functions=66 indirect-calls-clamped=4 fakeplt-trampolines=3
+[jail] mode=mask module=cluster.c functions=177 indirect-calls-clamped=57 fakeplt-trampolines=11
     [34mCC[0m [33mbio.o[0m
 [jail] mode=mask module=bio.c functions=10 indirect-calls-clamped=1 fakeplt-trampolines=0
     [34mCC[0m [33mrio.o[0m
-[jail] mode=mask module=cluster.c functions=177 indirect-calls-clamped=57 fakeplt-trampolines=11
 [jail] mode=mask module=rio.c functions=30 indirect-calls-clamped=9 fakeplt-trampolines=0
     [34mCC[0m [33mrand.o[0m
 [jail] mode=mask module=rand.c functions=2 indirect-calls-clamped=0 fakeplt-trampolines=0
@@ -258,33 +258,33 @@ make[2]: Leaving directory '/home/claude/pa/targets/redis-mask/deps'
     [34mCC[0m [33msyscheck.o[0m
 [jail] mode=mask module=syscheck.c functions=7 indirect-calls-clamped=1 fakeplt-trampolines=0
     [34mCC[0m [33mcrcspeed.o[0m
-[jail] mode=mask module=crcspeed.c functions=12 indirect-calls-clamped=2 fakeplt-trampolines=0
     [34mCC[0m [33mcrc64.o[0m
+[jail] mode=mask module=crcspeed.c functions=12 indirect-calls-clamped=2 fakeplt-trampolines=0
 [jail] mode=mask module=crc64.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mbitops.o[0m
-[jail] mode=mask module=bitops.c functions=21 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33msentinel.o[0m
+[jail] mode=mask module=bitops.c functions=21 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mnotify.o[0m
+[jail] mode=mask module=sentinel.c functions=124 indirect-calls-clamped=0 fakeplt-trampolines=5
 [jail] mode=mask module=notify.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33msetproctitle.o[0m
 [jail] mode=mask module=setproctitle.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mblocked.o[0m
 [jail] mode=mask module=blocked.c functions=24 indirect-calls-clamped=2 fakeplt-trampolines=0
     [34mCC[0m [33mhyperloglog.o[0m
-[jail] mode=mask module=sentinel.c functions=124 indirect-calls-clamped=0 fakeplt-trampolines=5
-[jail] mode=mask module=hyperloglog.c functions=23 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mlatency.o[0m
-    [34mCC[0m [33msparkline.o[0m
+[jail] mode=mask module=hyperloglog.c functions=23 indirect-calls-clamped=0 fakeplt-trampolines=0
 [jail] mode=mask module=latency.c functions=16 indirect-calls-clamped=0 fakeplt-trampolines=1
-[jail] mode=mask module=sparkline.c functions=5 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33msparkline.o[0m
     [34mCC[0m [33mredis-check-rdb.o[0m
+[jail] mode=mask module=sparkline.c functions=5 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mredis-check-aof.o[0m
 [jail] mode=mask module=redis-check-rdb.c functions=10 indirect-calls-clamped=6 fakeplt-trampolines=1
     [34mCC[0m [33mgeo.o[0m
 [jail] mode=mask module=redis-check-aof.c functions=15 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mlazyfree.o[0m
-[jail] mode=mask module=geo.c functions=28 indirect-calls-clamped=0 fakeplt-trampolines=0
 [jail] mode=mask module=lazyfree.c functions=16 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=mask module=geo.c functions=28 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mmodule.o[0m
     [34mCC[0m [33mevict.o[0m
 [jail] mode=mask module=evict.c functions=15 indirect-calls-clamped=5 fakeplt-trampolines=0
@@ -297,9 +297,9 @@ make[2]: Leaving directory '/home/claude/pa/targets/redis-mask/deps'
     [34mCC[0m [33mchildinfo.o[0m
 [jail] mode=mask module=childinfo.c functions=6 indirect-calls-clamped=2 fakeplt-trampolines=0
     [34mCC[0m [33mdefrag.o[0m
+[jail] mode=mask module=module.c functions=506 indirect-calls-clamped=92 fakeplt-trampolines=4
 [jail] mode=mask module=defrag.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33msiphash.o[0m
-[jail] mode=mask module=module.c functions=506 indirect-calls-clamped=92 fakeplt-trampolines=4
 [jail] mode=mask module=siphash.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mrax.o[0m
 [jail] mode=mask module=rax.c functions=37 indirect-calls-clamped=3 fakeplt-trampolines=0
@@ -310,12 +310,12 @@ make[2]: Leaving directory '/home/claude/pa/targets/redis-mask/deps'
     [34mCC[0m [33mlocaltime.o[0m
 [jail] mode=mask module=localtime.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mlolwut.o[0m
-    [34mCC[0m [33mlolwut5.o[0m
 [jail] mode=mask module=lolwut.c functions=8 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mlolwut5.o[0m
     [34mCC[0m [33mlolwut6.o[0m
 [jail] mode=mask module=lolwut6.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
-[jail] mode=mask module=lolwut5.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33macl.o[0m
+[jail] mode=mask module=lolwut5.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mtracking.o[0m
 [jail] mode=mask module=tracking.c functions=18 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33msocket.o[0m
@@ -326,10 +326,10 @@ make[2]: Leaving directory '/home/claude/pa/targets/redis-mask/deps'
     [34mCC[0m [33msha256.o[0m
 [jail] mode=mask module=sha256.c functions=4 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mtimeout.o[0m
-[jail] mode=mask module=timeout.c functions=8 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33msetcpuaffinity.o[0m
-[jail] mode=mask module=setcpuaffinity.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=mask module=timeout.c functions=8 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mmonotonic.o[0m
+[jail] mode=mask module=setcpuaffinity.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mmt19937-64.o[0m
 [jail] mode=mask module=monotonic.c functions=4 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mresp_parser.o[0m
@@ -344,18 +344,18 @@ make[2]: Leaving directory '/home/claude/pa/targets/redis-mask/deps'
     [34mCC[0m [33mfunctions.o[0m
     [34mCC[0m [33mfunction_lua.o[0m
 [jail] mode=mask module=function_lua.c functions=9 indirect-calls-clamped=2 fakeplt-trampolines=0
-[jail] mode=mask module=functions.c functions=38 indirect-calls-clamped=7 fakeplt-trampolines=6
     [34mCC[0m [33mcommands.o[0m
+[jail] mode=mask module=functions.c functions=38 indirect-calls-clamped=7 fakeplt-trampolines=6
     [34mCC[0m [33mstrl.o[0m
 [jail] mode=mask module=strl.c functions=2 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mconnection.o[0m
-[jail] mode=mask module=connection.c functions=11 indirect-calls-clamped=51 fakeplt-trampolines=0
 [jail] mode=mask module=commands.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=270
     [34mCC[0m [33munix.o[0m
+[jail] mode=mask module=connection.c functions=11 indirect-calls-clamped=51 fakeplt-trampolines=0
     [34mCC[0m [33mlogreqres.o[0m
 [jail] mode=mask module=unix.c functions=21 indirect-calls-clamped=10 fakeplt-trampolines=0
-[jail] mode=mask module=logreqres.c functions=4 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mredis-cli.o[0m
+[jail] mode=mask module=logreqres.c functions=4 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mredisassert.o[0m
 [jail] mode=mask module=redisassert.c functions=2 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34mCC[0m [33mcli_common.o[0m
@@ -366,10 +366,10 @@ make[2]: Leaving directory '/home/claude/pa/targets/redis-mask/deps'
 [jail] mode=mask module=redis-benchmark.c functions=18 indirect-calls-clamped=0 fakeplt-trampolines=0
     [34;1mLINK[0m [37;1mredis-server[0m
     [34;1mLINK[0m [37;1mredis-benchmark[0m
+[jail] mode=mask module=redis-cli.c functions=122 indirect-calls-clamped=7 fakeplt-trampolines=0
     [34;1mINSTALL[0m [37;1mredis-check-rdb[0m
     [34;1mINSTALL[0m [37;1mredis-check-aof[0m
     [34;1mINSTALL[0m [37;1mredis-sentinel[0m
-[jail] mode=mask module=redis-cli.c functions=122 indirect-calls-clamped=7 fakeplt-trampolines=0
     [34;1mLINK[0m [37;1mredis-cli[0m
 /usr/bin/aarch64-linux-gnu-ld.bfd: /usr/aarch64-linux-gnu/lib/libc_nonshared.a(atexit.oS): warning: BTI turned on by -z force-bti when all inputs do not have BTI in NOTE section.
 

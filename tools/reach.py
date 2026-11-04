@@ -36,7 +36,9 @@ exist and are not counted here (an exact count needs disassembly).
 
 Usage:
   reach.py BINARY [BINARY...] [--csv out.csv] [--per-dso per_dso.csv]
-  reach.py BINARY --after fakeplt.txt            # hardened "after" number
+  reach.py BINARY --after fakeplt.txt            # (legacy) "after" from the pass's list
+  reach.py BINARY --libdir /usr/aarch64-linux-gnu/lib   # no ldd needed
+  For the hardened "after" number measured from the binary, use reach_after_bin.py.
 Requires: pyelftools (python3-pyelftools), and `ldd` on PATH for lib resolution.
 """
 import argparse, csv, os, subprocess, sys, shutil
@@ -65,9 +67,44 @@ DANGEROUS = {
     "syscall",
 }
 
+LIBDIRS = []          # set by --libdir: resolve DT_NEEDED ourselves instead of ldd
+
+def resolve_needed(binary):
+    """Portable alternative to ldd (works on a foreign-architecture host):
+    breadth-first over DT_NEEDED, searching --libdir directories, plus the
+    PT_INTERP loader. Same result set as ldd for a normal search path."""
+    from elftools.elf.dynamic import DynamicSection
+    libs = OrderedDict(); todo = [binary]; seen = set()
+    while todo:
+        cur = todo.pop(0)
+        with open(cur, "rb") as f:
+            elf = ELFFile(f)
+            for seg in elf.iter_segments():
+                if seg["p_type"] == "PT_INTERP":
+                    ip = os.path.basename(seg.get_interp_name())
+                    for d in LIBDIRS:
+                        q = os.path.join(d, ip)
+                        if os.path.exists(q): libs.setdefault(ip, os.path.realpath(q))
+            dyn = elf.get_section_by_name(".dynamic")
+            needed = [t.needed for t in dyn.iter_tags() if t.entry.d_tag == "DT_NEEDED"] \
+                     if isinstance(dyn, DynamicSection) else []
+        for n in needed:
+            if n in seen: continue
+            seen.add(n)
+            for d in LIBDIRS:
+                q = os.path.join(d, n)
+                if os.path.exists(q):
+                    libs[n] = os.path.realpath(q); todo.append(q); break
+            else:
+                print(f"  warn: {n} not found in --libdir", file=sys.stderr)
+    return libs
+
 def resolve_libs(binary):
     """Return OrderedDict name->abspath of the DSOs this binary actually loads,
-    as the real loader resolves them (via ldd). The binary itself is excluded."""
+    as the real loader resolves them (via ldd, or via --libdir). The binary
+    itself is excluded."""
+    if LIBDIRS:
+        return resolve_needed(binary)
     libs = OrderedDict()
     if not shutil.which("ldd"):
         return libs
@@ -159,9 +196,13 @@ def main():
     ap.add_argument("binaries", nargs="+")
     ap.add_argument("--csv", help="summary CSV (one row per binary)")
     ap.add_argument("--per-dso", help="detailed CSV (one row per (binary,dso))")
+    ap.add_argument("--libdir", action="append", default=[],
+                    help="resolve DT_NEEDED in this directory instead of running ldd "
+                         "(repeatable; for analysing foreign-architecture binaries)")
     ap.add_argument("--after", metavar="FAKEPLT",
                     help="treat as hardened: reachable = fake-PLT set in this file")
     args = ap.parse_args()
+    LIBDIRS.extend(args.libdir)
 
     summary_rows = []
     per_dso_rows = []

@@ -1,0 +1,7 @@
+date: 2026-11-04T11:53:19+0000
+name: sqlite_aa2
+reps: 21
+core: 1
+host: claude aarch64 6.8.0-138-generic
+config base: /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/sqlbench_base 100000 100000
+config aa: /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/sqlbench_base_copy 100000 100000

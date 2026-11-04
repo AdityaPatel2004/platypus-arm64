@@ -1,0 +1,8 @@
+date: 2026-11-04T11:47:24+0000
+name: sqlite_disk_layout
+reps: 14
+core: 1
+host: claude aarch64 6.8.0-138-generic
+config base: /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/sqlbench_base 60000 60000 /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/tmp/sb.db
+config al64: /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/sqlbench_base_al64 60000 60000 /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/tmp/sb.db
+config al32: /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/sqlbench_base_al32 60000 60000 /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/tmp/sb.db

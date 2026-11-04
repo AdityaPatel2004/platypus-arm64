@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# provision.sh — one-time setup of the E0-256 "Execution Jails for ARM64" dev box.
+# provision.sh — one-time setup of the E0-256 dev box (Restricting Cross-Library Control Flow on AArch64).
 # Runs INSIDE the Ubuntu 24.04 arm64 Lima VM (which runs natively on the M4).
 # Idempotent-ish: safe to re-run; apt skips already-installed packages.
 set -euo pipefail
@@ -20,7 +20,7 @@ if ! command -v clang-20 >/dev/null 2>&1; then
 fi
 
 echo "### [3/5] python tooling for the reachability tool + plots"
-sudo apt-get install -y python3 python3-pip python3-pyelftools python3-matplotlib python3-numpy
+sudo apt-get install -y python3 python3-pip python3-pyelftools python3-matplotlib python3-numpy tcl
 
 echo "### [4/5] evaluation targets (for 'before' reachability + benchmarks)"
 # Real distro arm64 binaries — their BTI status is itself data (week-3 scan).

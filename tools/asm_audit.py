@@ -6,6 +6,7 @@ For every indirect branch in the final machine code (`blr xN` = indirect call,
 wrote xN and classify the branch:
 
   clamped-B   last writer is `and xN, ..`            (Option B: or/and masks)
+  clamped-C   last writer is `bfxil xN, xT, #0, #k`   (Option C: aligned jail)
   clamped-D   last writer is `add xN, xW, xB` where xW came from an
               `and .., #imm` shortly before           (Option D: base-relative)
   jumptable   `br` whose target is built from an `adr` table + scaled index
@@ -84,6 +85,8 @@ def classify(ins, i):
     wmn, wops = ins[j][3], ins[j][4]
     if wmn == "and":
         return "clamped-B"
+    if wmn == "bfxil":
+        return "clamped-C"
     if wmn == "add":
         parts = [p.strip() for p in wops.split(",")]
         if any(("sxtw" in p or "uxtw" in p or "lsl" in p) for p in parts[2:]):
@@ -92,6 +95,11 @@ def classify(ins, i):
                 if ins[k][1] != f: break
                 if ins[k][3] == "adr":
                     return "jumptable"
+        # switch table, second form: adr xA, . ; ldrsw xO, [...] ; add xT, xA, xO
+        for src in parts[1:3]:
+            sj, _ = writer_of(ins, j, reg(src), limit=12)
+            if sj is not None and ins[sj][3] == "adr":
+                return "jumptable"
         # Option D: add xT, xW, xBase with xW = and xW, .., #imm
         for src in parts[1:3]:
             sj, _ = writer_of(ins, j, reg(src), limit=12)

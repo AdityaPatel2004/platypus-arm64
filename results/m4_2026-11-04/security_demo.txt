@@ -1,0 +1,58 @@
+== BTI probe (native M4)
+normal call (fp=tgt)    : ran (r=42)
+skip-pad call (fp=tgt+4): TRAP [SIGILL]
+RESULT: BTI ENFORCED -> GO
+
+== hijack_poc base
+[poc] fp overwritten -> 0xec298da3cd44 (real system=0xec298da3cd44)
+uid=1068(rcw-01asiy3n4zwhxcfxmesbuahb) gid=1068(rcw-01asiy3n4zwhxcfxmesbuahb) groups=1068(rcw-01asiy3n4zwhxcfxmesbuahb)
+[poc] returned normally (no trap, no shell escape blocked)
+exit=0
+
+== hijack_poc mask
+bash: line 1:    20 Segmentation fault      JAIL_VERBOSE=1 ./poc_$m hijack > o.txt 2> e.txt
+[poc] fp overwritten -> 0xf7324b6dcd44 (real system=0xf7324b6dcd44)
+[jail] module [0xb54c574f0000,0xb54c57540000) span=0x50000 -> block 2^21 [0xb54c57400000,0xb54c575fffff] ormask=0xb54c57400000 andmask=0xb54c575fffff (masks page read-only)
+[jail] window soundness: 0 other-module exec segment(s) inside the clamp window
+exit=139
+
+== hijack_poc pcrel
+bash: line 1:    23 Segmentation fault      JAIL_VERBOSE=1 ./poc_$m hijack > o.txt 2> e.txt
+[poc] fp overwritten -> 0xfaa6630fcd44 (real system=0xfaa6630fcd44)
+[jail] pcrel module code [0xb787f4a80000,0xb787f4a81974) window 2^22 [0xb787f4a80000,0xb787f4e80000)
+[jail] window soundness: 0 other-module exec segment(s) inside the clamp window
+exit=139
+
+== hijack_poc aligned
+bash: line 1:    26 Segmentation fault      JAIL_VERBOSE=1 ./poc_$m hijack > o.txt 2> e.txt
+[poc] fp overwritten -> 0xe6ba683ecd44 (real system=0xe6ba683ecd44)
+[jail] aligned module code [0xaf015a400000,0xaf015a401984) window 2^22 [0xaf015a400000,0xaf015a800000)
+[jail] window soundness: 0 other-module exec segment(s) inside the clamp window
+exit=139
+
+== attack_oct21
+[poc] step 1: widen the jail via arbitrary write (mask at 0xb5f3bd270020)
+[poc] step 1 succeeded: masks now 0 / 0xffffffffffffffff
+[poc] step 2: fp -> 0xf210dc0fcd44 (system)
+*** SHELL ESCAPE: jail bypassed ***
+[poc] returned normally
+exit=0
+
+== attack_mask
+bash: line 1:    32 Segmentation fault      ./$b > o.txt 2>&1
+[poc] step 1: widen the jail via arbitrary write (mask at 0xbb0723680000)
+exit=139
+
+== attack_pcrel
+bash: line 1:    34 Segmentation fault      ./$b > o.txt 2>&1
+[poc] step 1: widen the jail via arbitrary write (mask at 0xb8f366240000)
+exit=139
+
+== attack_aligned
+bash: line 1:    36 Segmentation fault      ./$b > o.txt 2>&1
+[poc] step 1: widen the jail via arbitrary write (mask at 0xb6d2c8020000)
+exit=139
+toy_base: sel=0 r=21 / sel=1 r=40
+toy_mask: sel=0 r=21 / sel=1 r=40
+toy_pcrel: sel=0 r=21 / sel=1 r=40
+toy_aligned: sel=0 r=21 / sel=1 r=40

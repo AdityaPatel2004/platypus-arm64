@@ -9,10 +9,15 @@
  *         here the compiler simply keeps them live across the loop, which is
  *         what reserving x27/x28 process-wide would give — the lower bound)
  *   B     two loads from a mask pair + orr + and    (Option B, what mask mode emits)
+ *   C     bfxil (insert low k bits into the 2^k-aligned base)
+ *                                                   (Option C, what aligned mode emits)
  *   D     adrp base + sub + and #imm + add          (Option D, what pcrel mode emits)
  *
  * The window here is this executable's own 2^22 block, so every target stays
  * valid and the checksum must match NONE.
+ * -DRANDOM picks the table slot with a cheap LCG instead of i&3, so the
+ * branch predictor CANNOT predict the target: every mispredict then has to wait
+ * for the clamp's result, which is where an extra cycle or two would show.
  *   usage: clamp_micro [iterations]     prints "<seconds> <checksum>"
  */
 #include <stdint.h>
@@ -44,11 +49,18 @@ int main(int argc, char **argv) {
     while ((lo | ((1ULL << K) - 1)) < hi) K++;
     masks[0] = lo; masks[1] = lo | ((1ULL << K) - 1);
     register uint64_t ormask = masks[0], andmask = masks[1];
-    (void)ormask; (void)andmask;
+    uint64_t cbase = lo;                 /* Option C: aligned block base */
+    (void)ormask; (void)andmask; (void)cbase;
     long acc = 0;
+    uint64_t lcg = 88172645463325252ULL;
     double t0 = now_s();
     for (long i = 0; i < N; i++) {
+#ifdef RANDOM
+        lcg = lcg * 6364136223846793005ULL + 1442695040888963407ULL;
+        uint64_t t = (uint64_t)tab[(lcg >> 33) & 3];
+#else
         uint64_t t = (uint64_t)tab[i & 3];
+#endif
 #if defined(VARIANT_A)
         __asm__ volatile("orr %0, %0, %1\n\tand %0, %0, %2"
                          : "+r"(t) : "r"(ormask), "r"(andmask));
@@ -57,6 +69,10 @@ int main(int argc, char **argv) {
         __asm__ volatile("ldr %1, [%3]\n\tldr %2, [%3, #8]\n\t"
                          "orr %0, %0, %1\n\tand %0, %0, %2"
                          : "+r"(t), "=&r"(a), "=&r"(b) : "r"(masks) : "memory");
+#elif defined(VARIANT_C)
+        uint64_t r = cbase;
+        __asm__ volatile("bfxil %0, %1, #0, #22" : "+r"(r) : "r"(t));
+        t = r;
 #elif defined(VARIANT_D)
         uint64_t b;
         __asm__ volatile("adrp %1, __ehdr_start\n\t"

@@ -1,0 +1,10 @@
+date: 2026-11-04T11:33:56+0000
+name: clamp_enc_rand
+reps: 21
+core: 1
+host: claude aarch64 6.8.0-138-generic
+config base: /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/cmicroR_NONE 100000000
+config A: /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/cmicroR_A 100000000
+config B: /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/cmicroR_B 100000000
+config C: /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/cmicroR_C 100000000
+config D: /sessions/rcw-01asiy3n4zwhxcfxmesbuahb/f/build/m4/cmicroR_D 100000000
