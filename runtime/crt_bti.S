@@ -1,5 +1,5 @@
 /* Minimal BTI-marked replacement for glibc's Scrt1.o (_start).
-   Ubuntu 24.04's arm64 *cross* glibc ships Scrt1.o/crti.o/crtn.o without the
+   Ubuntu 24.04's arm64 glibc (native and cross packages alike) ships Scrt1.o/crti.o/crtn.o without the
    GNU_PROPERTY_AARCH64_FEATURE_1_BTI note and without a landing pad at _start, so a
    BTI-enforced executable dies before main(). Mirrors sysdeps/aarch64/start.S (glibc>=2.34). */
     .text

@@ -1,0 +1,378 @@
+cd src && make all
+make[1]: Entering directory '/home/claude/pa/targets/redis-pcrel/src'
+    [34mCC[0m [33mMakefile.dep[0m
+rm -rf redis-server redis-sentinel redis-cli redis-benchmark redis-check-rdb redis-check-aof *.o *.gcda *.gcno *.gcov redis.info lcov-html Makefile.dep *.so
+rm -f adlist.d quicklist.d ae.d anet.d dict.d server.d sds.d zmalloc.d lzf_c.d lzf_d.d pqsort.d zipmap.d sha1.d ziplist.d release.d networking.d util.d object.d db.d replication.d rdb.d t_string.d t_list.d t_set.d t_zset.d t_hash.d config.d aof.d pubsub.d multi.d debug.d sort.d intset.d syncio.d cluster.d crc16.d endianconv.d slowlog.d eval.d bio.d rio.d rand.d memtest.d syscheck.d crcspeed.d crc64.d bitops.d sentinel.d notify.d setproctitle.d blocked.d hyperloglog.d latency.d sparkline.d redis-check-rdb.d redis-check-aof.d geo.d lazyfree.d module.d evict.d expire.d geohash.d geohash_helper.d childinfo.d defrag.d siphash.d rax.d t_stream.d listpack.d localtime.d lolwut.d lolwut5.d lolwut6.d acl.d tracking.d socket.d tls.d sha256.d timeout.d setcpuaffinity.d monotonic.d mt19937-64.d resp_parser.d call_reply.d script_lua.d script.d functions.d function_lua.d commands.d strl.d connection.d unix.d logreqres.d anet.d adlist.d dict.d redis-cli.d zmalloc.d release.d ae.d redisassert.d crcspeed.d crc64.d siphash.d crc16.d monotonic.d cli_common.d mt19937-64.d strl.d cli_commands.d ae.d anet.d redis-benchmark.d adlist.d dict.d zmalloc.d redisassert.d release.d crcspeed.d crc64.d siphash.d crc16.d monotonic.d cli_common.d mt19937-64.d strl.d
+(cd ../deps && make distclean)
+make[2]: Entering directory '/home/claude/pa/targets/redis-pcrel/deps'
+(cd hiredis && make clean) > /dev/null || true
+(cd linenoise && make clean) > /dev/null || true
+(cd lua && make clean) > /dev/null || true
+(cd jemalloc && [ -f Makefile ] && make distclean) > /dev/null || true
+(cd hdr_histogram && make clean) > /dev/null || true
+(cd fpconv && make clean) > /dev/null || true
+(rm -f .make-*)
+make[2]: Leaving directory '/home/claude/pa/targets/redis-pcrel/deps'
+(cd modules && make clean)
+make[2]: Entering directory '/home/claude/pa/targets/redis-pcrel/src/modules'
+rm -rf *.xo *.so
+make[2]: Leaving directory '/home/claude/pa/targets/redis-pcrel/src/modules'
+(cd ../tests/modules && make clean)
+make[2]: Entering directory '/home/claude/pa/targets/redis-pcrel/tests/modules'
+rm -f commandfilter.so basics.so testrdb.so fork.so infotest.so propagate.so misc.so hooks.so blockonkeys.so blockonbackground.so scan.so datatype.so datatype2.so auth.so keyspace_events.so blockedclient.so getkeys.so getchannels.so test_lazyfree.so timer.so defragtest.so keyspecs.so hash.so zset.so stream.so mallocsize.so aclcheck.so list.so subcommands.so reply.so cmdintrospection.so eventloop.so moduleconfigs.so moduleconfigstwo.so publish.so usercall.so postnotifications.so moduleauthtwo.so rdbloadsave.so commandfilter.xo basics.xo testrdb.xo fork.xo infotest.xo propagate.xo misc.xo hooks.xo blockonkeys.xo blockonbackground.xo scan.xo datatype.xo datatype2.xo auth.xo keyspace_events.xo blockedclient.xo getkeys.xo getchannels.xo test_lazyfree.xo timer.xo defragtest.xo keyspecs.xo hash.xo zset.xo stream.xo mallocsize.xo aclcheck.xo list.xo subcommands.xo reply.xo cmdintrospection.xo eventloop.xo moduleconfigs.xo moduleconfigstwo.xo publish.xo usercall.xo postnotifications.xo moduleauthtwo.xo rdbloadsave.xo
+make[2]: Leaving directory '/home/claude/pa/targets/redis-pcrel/tests/modules'
+(rm -f .make-*)
+echo STD=-pedantic -DREDIS_STATIC='' -Wno-c11-extensions -std=gnu11 >> .make-settings
+echo WARN=-Wall -W -Wno-missing-field-initializers -Werror=deprecated-declarations -Wstrict-prototypes >> .make-settings
+echo OPT=-O2 >> .make-settings
+echo MALLOC=libc >> .make-settings
+echo BUILD_TLS=no >> .make-settings
+echo USE_SYSTEMD=no >> .make-settings
+echo CFLAGS=-funwind-tables >> .make-settings
+echo LDFLAGS= >> .make-settings
+echo REDIS_CFLAGS= >> .make-settings
+echo REDIS_LDFLAGS=-Wl,--dynamic-linker=/tmp/rt239/ld-linux-aarch64.so.1 -Wl,-rpath,/tmp/rt239 >> .make-settings
+echo PREV_FINAL_CFLAGS=-pedantic -DREDIS_STATIC='' -Wno-c11-extensions -std=gnu11 -Wall -W -Wno-missing-field-initializers -Werror=deprecated-declarations -Wstrict-prototypes -O2 -g -ggdb -funwind-tables  -I../deps/hiredis -I../deps/linenoise -I../deps/lua/src -I../deps/hdr_histogram -I../deps/fpconv >> .make-settings
+echo PREV_FINAL_LDFLAGS= -Wl,--dynamic-linker=/tmp/rt239/ld-linux-aarch64.so.1 -Wl,-rpath,/tmp/rt239 -g -ggdb -rdynamic >> .make-settings
+(cd ../deps && make hiredis linenoise lua hdr_histogram fpconv)
+make[2]: Entering directory '/home/claude/pa/targets/redis-pcrel/deps'
+(cd hiredis && make clean) > /dev/null || true
+(cd linenoise && make clean) > /dev/null || true
+(cd lua && make clean) > /dev/null || true
+(cd jemalloc && [ -f Makefile ] && make distclean) > /dev/null || true
+(cd hdr_histogram && make clean) > /dev/null || true
+(cd fpconv && make clean) > /dev/null || true
+(rm -f .make-*)
+(echo "" > .make-cflags)
+(echo "" > .make-ldflags)
+[32;1mMAKE[0m [37;1mlinenoise[0m
+[32;1mMAKE[0m [37;1mhiredis[0m
+cd linenoise && make
+cd hiredis && make static 
+make[3]: Entering directory '/home/claude/pa/targets/redis-pcrel/deps/hiredis'
+make[3]: Entering directory '/home/claude/pa/targets/redis-pcrel/deps/linenoise'
+/home/claude/pa/bin/a64cc  -Wall -Os -g  -c linenoise.c
+/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic alloc.c
+[jail] mode=pcrel k=23 module=alloc.c functions=2 indirect-calls-clamped=0 fakeplt-trampolines=5
+/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic net.c
+[jail] mode=pcrel k=23 module=linenoise.c functions=30 indirect-calls-clamped=3 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=net.c functions=17 indirect-calls-clamped=18 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic hiredis.c
+make[3]: Leaving directory '/home/claude/pa/targets/redis-pcrel/deps/linenoise'
+/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic sds.c
+[jail] mode=pcrel k=23 module=hiredis.c functions=46 indirect-calls-clamped=44 fakeplt-trampolines=5
+[jail] mode=pcrel k=23 module=sds.c functions=40 indirect-calls-clamped=31 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic async.c
+/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic read.c
+[jail] mode=pcrel k=23 module=async.c functions=32 indirect-calls-clamped=116 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=read.c functions=7 indirect-calls-clamped=42 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -std=c99 -c -O2 -fPIC   -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wno-missing-field-initializers -g -ggdb  -pedantic sockcompat.c
+[jail] mode=pcrel k=23 module=sockcompat.c functions=0 indirect-calls-clamped=0 fakeplt-trampolines=0
+ar rcs libhiredis.a alloc.o net.o hiredis.o sds.o async.o read.o sockcompat.o
+[32;1mMAKE[0m [37;1mlua[0m
+cd lua/src && make all CFLAGS="-Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2 " MYLDFLAGS="" AR="ar rc"
+make[3]: Entering directory '/home/claude/pa/targets/redis-pcrel/deps/lua/src'
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lapi.o lapi.c
+make[3]: Leaving directory '/home/claude/pa/targets/redis-pcrel/deps/hiredis'
+[32;1mMAKE[0m [37;1mhdr_histogram[0m
+cd hdr_histogram && make
+make[3]: Entering directory '/home/claude/pa/targets/redis-pcrel/deps/hdr_histogram'
+/home/claude/pa/bin/a64cc -std=c99 -Wall -Os -g  -DHDR_MALLOC_INCLUDE=\"hdr_redis_malloc.h\" -c  hdr_histogram.c 
+[jail] mode=pcrel k=23 module=lapi.c functions=73 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=hdr_histogram.c functions=48 indirect-calls-clamped=7 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lcode.o lcode.c
+ar rcs libhdrhistogram.a hdr_histogram.o
+make[3]: Leaving directory '/home/claude/pa/targets/redis-pcrel/deps/hdr_histogram'
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ldebug.o ldebug.c
+[jail] mode=pcrel k=23 module=lcode.c functions=37 indirect-calls-clamped=0 fakeplt-trampolines=0
+[32;1mMAKE[0m [37;1mfpconv[0m
+cd fpconv && make
+make[3]: Entering directory '/home/claude/pa/targets/redis-pcrel/deps/fpconv'
+/home/claude/pa/bin/a64cc  -Wall -Os -g  -c  fpconv_dtoa.c 
+[jail] mode=pcrel k=23 module=ldebug.c functions=18 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ldo.o ldo.c
+[jail] mode=pcrel k=23 module=fpconv_dtoa.c functions=2 indirect-calls-clamped=0 fakeplt-trampolines=0
+ar rcs libfpconv.a fpconv_dtoa.o
+make[3]: Leaving directory '/home/claude/pa/targets/redis-pcrel/deps/fpconv'
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ldump.o ldump.c
+[jail] mode=pcrel k=23 module=ldo.c functions=17 indirect-calls-clamped=8 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=ldump.c functions=2 indirect-calls-clamped=32 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lfunc.o lfunc.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lgc.o lgc.c
+[jail] mode=pcrel k=23 module=lfunc.c functions=10 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o llex.o llex.c
+[jail] mode=pcrel k=23 module=lgc.c functions=16 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lmem.o lmem.c
+[jail] mode=pcrel k=23 module=lmem.c functions=3 indirect-calls-clamped=2 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=llex.c functions=14 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lobject.o lobject.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lopcodes.o lopcodes.c
+[jail] mode=pcrel k=23 module=lobject.c functions=8 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=lopcodes.c functions=0 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lparser.o lparser.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lstate.o lstate.c
+[jail] mode=pcrel k=23 module=lstate.c functions=7 indirect-calls-clamped=2 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lstring.o lstring.c
+[jail] mode=pcrel k=23 module=lstring.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ltable.o ltable.c
+[jail] mode=pcrel k=23 module=lparser.c functions=21 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=ltable.c functions=14 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ltm.o ltm.c
+[jail] mode=pcrel k=23 module=ltm.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lundump.o lundump.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lvm.o lvm.c
+[jail] mode=pcrel k=23 module=lundump.c functions=5 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lzio.o lzio.c
+[jail] mode=pcrel k=23 module=lzio.c functions=5 indirect-calls-clamped=3 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=lvm.c functions=11 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o strbuf.o strbuf.c
+[jail] mode=pcrel k=23 module=strbuf.c functions=7 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o fpconv.o fpconv.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lauxlib.o lauxlib.c
+[jail] mode=pcrel k=23 module=fpconv.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lbaselib.o lbaselib.c
+[jail] mode=pcrel k=23 module=lauxlib.c functions=38 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=lbaselib.c functions=39 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ldblib.o ldblib.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o liolib.o liolib.c
+[jail] mode=pcrel k=23 module=ldblib.c functions=18 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=liolib.c functions=28 indirect-calls-clamped=3 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lmathlib.o lmathlib.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o loslib.o loslib.c
+[jail] mode=pcrel k=23 module=lmathlib.c functions=29 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=loslib.c functions=12 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o ltablib.o ltablib.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lstrlib.o lstrlib.c
+[jail] mode=pcrel k=23 module=ltablib.c functions=12 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o loadlib.o loadlib.c
+[jail] mode=pcrel k=23 module=lstrlib.c functions=22 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=loadlib.c functions=12 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o linit.o linit.c
+[jail] mode=pcrel k=23 module=linit.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=8
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lua_cjson.o lua_cjson.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lua_struct.o lua_struct.c
+[jail] mode=pcrel k=23 module=lua_struct.c functions=6 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lua_cmsgpack.o lua_cmsgpack.c
+[jail] mode=pcrel k=23 module=lua_cjson.c functions=25 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lua_bit.o lua_bit.c
+[jail] mode=pcrel k=23 module=lua_bit.c functions=13 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=lua_cmsgpack.c functions=33 indirect-calls-clamped=18 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o lua.o lua.c
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o luac.o luac.c
+[jail] mode=pcrel k=23 module=lua.c functions=11 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -Wall -DLUA_ANSI -DENABLE_CJSON_GLOBAL -DREDIS_STATIC='' -DLUA_USE_MKSTEMP  -O2    -c -o print.o print.c
+[jail] mode=pcrel k=23 module=luac.c functions=6 indirect-calls-clamped=0 fakeplt-trampolines=0
+ar rc liblua.a lapi.o lcode.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o ltable.o ltm.o lundump.o lvm.o lzio.o strbuf.o fpconv.o lauxlib.o lbaselib.o ldblib.o liolib.o lmathlib.o loslib.o ltablib.o lstrlib.o loadlib.o linit.o lua_cjson.o lua_struct.o lua_cmsgpack.o lua_bit.o	# DLL needs all object files
+ranlib liblua.a
+[jail] mode=pcrel k=23 module=print.c functions=2 indirect-calls-clamped=0 fakeplt-trampolines=0
+/home/claude/pa/bin/a64cc -o lua  lua.o liblua.a -lm 
+/home/claude/pa/bin/a64cc -o luac  luac.o print.o liblua.a -lm 
+make[3]: Leaving directory '/home/claude/pa/targets/redis-pcrel/deps/lua/src'
+make[2]: Leaving directory '/home/claude/pa/targets/redis-pcrel/deps'
+    [34mCC[0m [33madlist.o[0m
+    [34mCC[0m [33mquicklist.o[0m
+[jail] mode=pcrel k=23 module=adlist.c functions=22 indirect-calls-clamped=8 fakeplt-trampolines=0
+    [34mCC[0m [33mae.o[0m
+[jail] mode=pcrel k=23 module=ae.c functions=18 indirect-calls-clamped=12 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=quicklist.c functions=59 indirect-calls-clamped=3 fakeplt-trampolines=2
+    [34mCC[0m [33manet.o[0m
+[jail] mode=pcrel k=23 module=anet.c functions=27 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mdict.o[0m
+    [34mCC[0m [33mserver.o[0m
+[jail] mode=pcrel k=23 module=dict.c functions=66 indirect-calls-clamped=47 fakeplt-trampolines=0
+    [34mCC[0m [33msds.o[0m
+[jail] mode=pcrel k=23 module=sds.c functions=47 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=server.c functions=198 indirect-calls-clamped=32 fakeplt-trampolines=24
+    [34mCC[0m [33mzmalloc.o[0m
+[jail] mode=pcrel k=23 module=zmalloc.c functions=31 indirect-calls-clamped=8 fakeplt-trampolines=0
+    [34mCC[0m [33mlzf_c.o[0m
+[jail] mode=pcrel k=23 module=lzf_c.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mlzf_d.o[0m
+[jail] mode=pcrel k=23 module=lzf_d.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mpqsort.o[0m
+[jail] mode=pcrel k=23 module=pqsort.c functions=2 indirect-calls-clamped=19 fakeplt-trampolines=0
+    [34mCC[0m [33mzipmap.o[0m
+    [34mCC[0m [33msha1.o[0m
+[jail] mode=pcrel k=23 module=zipmap.c functions=10 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=sha1.c functions=4 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mziplist.o[0m
+    [34mCC[0m [33mrelease.o[0m
+[jail] mode=pcrel k=23 module=release.c functions=5 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mnetworking.o[0m
+[jail] mode=pcrel k=23 module=ziplist.c functions=35 indirect-calls-clamped=1 fakeplt-trampolines=0
+    [34mCC[0m [33mutil.o[0m
+[jail] mode=pcrel k=23 module=networking.c functions=148 indirect-calls-clamped=33 fakeplt-trampolines=8
+[jail] mode=pcrel k=23 module=util.c functions=33 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mobject.o[0m
+    [34mCC[0m [33mdb.o[0m
+[jail] mode=pcrel k=23 module=object.c functions=76 indirect-calls-clamped=5 fakeplt-trampolines=0
+    [34mCC[0m [33mreplication.o[0m
+[jail] mode=pcrel k=23 module=db.c functions=95 indirect-calls-clamped=3 fakeplt-trampolines=10
+    [34mCC[0m [33mrdb.o[0m
+[jail] mode=pcrel k=23 module=replication.c functions=86 indirect-calls-clamped=80 fakeplt-trampolines=3
+[jail] mode=pcrel k=23 module=rdb.c functions=78 indirect-calls-clamped=174 fakeplt-trampolines=2
+    [34mCC[0m [33mt_string.o[0m
+    [34mCC[0m [33mt_list.o[0m
+[jail] mode=pcrel k=23 module=t_string.c functions=27 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=t_list.c functions=57 indirect-calls-clamped=2 fakeplt-trampolines=0
+    [34mCC[0m [33mt_set.o[0m
+    [34mCC[0m [33mt_zset.o[0m
+[jail] mode=pcrel k=23 module=t_set.c functions=40 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mt_hash.o[0m
+[jail] mode=pcrel k=23 module=t_zset.c functions=137 indirect-calls-clamped=20 fakeplt-trampolines=2
+[jail] mode=pcrel k=23 module=t_hash.c functions=43 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mconfig.o[0m
+    [34mCC[0m [33maof.o[0m
+[jail] mode=pcrel k=23 module=config.c functions=127 indirect-calls-clamped=19 fakeplt-trampolines=4
+[jail] mode=pcrel k=23 module=aof.c functions=63 indirect-calls-clamped=15 fakeplt-trampolines=2
+    [34mCC[0m [33mpubsub.o[0m
+    [34mCC[0m [33mmulti.o[0m
+[jail] mode=pcrel k=23 module=pubsub.c functions=37 indirect-calls-clamped=7 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=multi.c functions=17 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mdebug.o[0m
+    [34mCC[0m [33msort.o[0m
+[jail] mode=pcrel k=23 module=sort.c functions=6 indirect-calls-clamped=0 fakeplt-trampolines=1
+    [34mCC[0m [33mintset.o[0m
+[jail] mode=pcrel k=23 module=debug.c functions=40 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=intset.c functions=11 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33msyncio.o[0m
+    [34mCC[0m [33mcluster.o[0m
+[jail] mode=pcrel k=23 module=syncio.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mcrc16.o[0m
+[jail] mode=pcrel k=23 module=crc16.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mendianconv.o[0m
+[jail] mode=pcrel k=23 module=endianconv.c functions=6 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mslowlog.o[0m
+[jail] mode=pcrel k=23 module=slowlog.c functions=6 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33meval.o[0m
+[jail] mode=pcrel k=23 module=eval.c functions=66 indirect-calls-clamped=4 fakeplt-trampolines=3
+[jail] mode=pcrel k=23 module=cluster.c functions=177 indirect-calls-clamped=57 fakeplt-trampolines=11
+    [34mCC[0m [33mbio.o[0m
+[jail] mode=pcrel k=23 module=bio.c functions=10 indirect-calls-clamped=1 fakeplt-trampolines=0
+    [34mCC[0m [33mrio.o[0m
+[jail] mode=pcrel k=23 module=rio.c functions=30 indirect-calls-clamped=9 fakeplt-trampolines=0
+    [34mCC[0m [33mrand.o[0m
+[jail] mode=pcrel k=23 module=rand.c functions=2 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mmemtest.o[0m
+[jail] mode=pcrel k=23 module=memtest.c functions=12 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33msyscheck.o[0m
+[jail] mode=pcrel k=23 module=syscheck.c functions=7 indirect-calls-clamped=1 fakeplt-trampolines=0
+    [34mCC[0m [33mcrcspeed.o[0m
+    [34mCC[0m [33mcrc64.o[0m
+[jail] mode=pcrel k=23 module=crcspeed.c functions=12 indirect-calls-clamped=2 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=crc64.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mbitops.o[0m
+    [34mCC[0m [33msentinel.o[0m
+[jail] mode=pcrel k=23 module=bitops.c functions=21 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mnotify.o[0m
+[jail] mode=pcrel k=23 module=sentinel.c functions=124 indirect-calls-clamped=0 fakeplt-trampolines=5
+[jail] mode=pcrel k=23 module=notify.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33msetproctitle.o[0m
+[jail] mode=pcrel k=23 module=setproctitle.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mblocked.o[0m
+[jail] mode=pcrel k=23 module=blocked.c functions=24 indirect-calls-clamped=2 fakeplt-trampolines=0
+    [34mCC[0m [33mhyperloglog.o[0m
+    [34mCC[0m [33mlatency.o[0m
+[jail] mode=pcrel k=23 module=latency.c functions=16 indirect-calls-clamped=0 fakeplt-trampolines=1
+[jail] mode=pcrel k=23 module=hyperloglog.c functions=23 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33msparkline.o[0m
+    [34mCC[0m [33mredis-check-rdb.o[0m
+[jail] mode=pcrel k=23 module=sparkline.c functions=5 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mredis-check-aof.o[0m
+[jail] mode=pcrel k=23 module=redis-check-rdb.c functions=10 indirect-calls-clamped=6 fakeplt-trampolines=1
+    [34mCC[0m [33mgeo.o[0m
+[jail] mode=pcrel k=23 module=redis-check-aof.c functions=15 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mlazyfree.o[0m
+[jail] mode=pcrel k=23 module=lazyfree.c functions=16 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mmodule.o[0m
+[jail] mode=pcrel k=23 module=geo.c functions=28 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mevict.o[0m
+[jail] mode=pcrel k=23 module=evict.c functions=15 indirect-calls-clamped=5 fakeplt-trampolines=0
+    [34mCC[0m [33mexpire.o[0m
+[jail] mode=pcrel k=23 module=expire.c functions=21 indirect-calls-clamped=0 fakeplt-trampolines=3
+    [34mCC[0m [33mgeohash.o[0m
+[jail] mode=pcrel k=23 module=geohash.c functions=12 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mgeohash_helper.o[0m
+[jail] mode=pcrel k=23 module=geohash_helper.c functions=9 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mchildinfo.o[0m
+[jail] mode=pcrel k=23 module=childinfo.c functions=6 indirect-calls-clamped=2 fakeplt-trampolines=0
+    [34mCC[0m [33mdefrag.o[0m
+[jail] mode=pcrel k=23 module=module.c functions=506 indirect-calls-clamped=92 fakeplt-trampolines=4
+[jail] mode=pcrel k=23 module=defrag.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33msiphash.o[0m
+[jail] mode=pcrel k=23 module=siphash.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mrax.o[0m
+[jail] mode=pcrel k=23 module=rax.c functions=37 indirect-calls-clamped=3 fakeplt-trampolines=0
+    [34mCC[0m [33mt_stream.o[0m
+    [34mCC[0m [33mlistpack.o[0m
+[jail] mode=pcrel k=23 module=t_stream.c functions=74 indirect-calls-clamped=0 fakeplt-trampolines=1
+[jail] mode=pcrel k=23 module=listpack.c functions=45 indirect-calls-clamped=1 fakeplt-trampolines=0
+    [34mCC[0m [33mlocaltime.o[0m
+    [34mCC[0m [33mlolwut.o[0m
+[jail] mode=pcrel k=23 module=localtime.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mlolwut5.o[0m
+[jail] mode=pcrel k=23 module=lolwut.c functions=8 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mlolwut6.o[0m
+[jail] mode=pcrel k=23 module=lolwut5.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33macl.o[0m
+[jail] mode=pcrel k=23 module=lolwut6.c functions=3 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mtracking.o[0m
+[jail] mode=pcrel k=23 module=tracking.c functions=18 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33msocket.o[0m
+[jail] mode=pcrel k=23 module=acl.c functions=89 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=socket.c functions=30 indirect-calls-clamped=7 fakeplt-trampolines=0
+    [34mCC[0m [33mtls.o[0m
+[jail] mode=pcrel k=23 module=tls.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33msha256.o[0m
+    [34mCC[0m [33mtimeout.o[0m
+[jail] mode=pcrel k=23 module=sha256.c functions=4 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33msetcpuaffinity.o[0m
+[jail] mode=pcrel k=23 module=timeout.c functions=8 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mmonotonic.o[0m
+[jail] mode=pcrel k=23 module=setcpuaffinity.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mmt19937-64.o[0m
+[jail] mode=pcrel k=23 module=monotonic.c functions=4 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mresp_parser.o[0m
+[jail] mode=pcrel k=23 module=mt19937-64.c functions=7 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mcall_reply.o[0m
+[jail] mode=pcrel k=23 module=resp_parser.c functions=1 indirect-calls-clamped=16 fakeplt-trampolines=0
+    [34mCC[0m [33mscript_lua.o[0m
+[jail] mode=pcrel k=23 module=call_reply.c functions=38 indirect-calls-clamped=0 fakeplt-trampolines=1
+    [34mCC[0m [33mscript.o[0m
+[jail] mode=pcrel k=23 module=script_lua.c functions=52 indirect-calls-clamped=0 fakeplt-trampolines=10
+[jail] mode=pcrel k=23 module=script.c functions=17 indirect-calls-clamped=3 fakeplt-trampolines=0
+    [34mCC[0m [33mfunctions.o[0m
+    [34mCC[0m [33mfunction_lua.o[0m
+[jail] mode=pcrel k=23 module=function_lua.c functions=9 indirect-calls-clamped=2 fakeplt-trampolines=0
+    [34mCC[0m [33mcommands.o[0m
+[jail] mode=pcrel k=23 module=functions.c functions=38 indirect-calls-clamped=7 fakeplt-trampolines=6
+    [34mCC[0m [33mstrl.o[0m
+[jail] mode=pcrel k=23 module=strl.c functions=2 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mconnection.o[0m
+[jail] mode=pcrel k=23 module=commands.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=270
+    [34mCC[0m [33munix.o[0m
+[jail] mode=pcrel k=23 module=connection.c functions=11 indirect-calls-clamped=51 fakeplt-trampolines=0
+[jail] mode=pcrel k=23 module=unix.c functions=21 indirect-calls-clamped=10 fakeplt-trampolines=0
+    [34mCC[0m [33mlogreqres.o[0m
+    [34mCC[0m [33mredis-cli.o[0m
+[jail] mode=pcrel k=23 module=logreqres.c functions=4 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mredisassert.o[0m
+[jail] mode=pcrel k=23 module=redisassert.c functions=2 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mcli_common.o[0m
+[jail] mode=pcrel k=23 module=cli_common.c functions=10 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mcli_commands.o[0m
+[jail] mode=pcrel k=23 module=cli_commands.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34mCC[0m [33mredis-benchmark.o[0m
+[jail] mode=pcrel k=23 module=redis-benchmark.c functions=18 indirect-calls-clamped=0 fakeplt-trampolines=0
+    [34;1mLINK[0m [37;1mredis-server[0m
+    [34;1mLINK[0m [37;1mredis-benchmark[0m
+    [34;1mINSTALL[0m [37;1mredis-check-rdb[0m
+    [34;1mINSTALL[0m [37;1mredis-check-aof[0m
+    [34;1mINSTALL[0m [37;1mredis-sentinel[0m
+[jail] mode=pcrel k=23 module=redis-cli.c functions=122 indirect-calls-clamped=7 fakeplt-trampolines=0
+    [34;1mLINK[0m [37;1mredis-cli[0m
+/usr/bin/aarch64-linux-gnu-ld.bfd: /usr/aarch64-linux-gnu/lib/libc_nonshared.a(atexit.oS): warning: BTI turned on by -z force-bti when all inputs do not have BTI in NOTE section.
+
+Hint: It's a good idea to run 'make test' ;)
+
+make[1]: Leaving directory '/home/claude/pa/targets/redis-pcrel/src'

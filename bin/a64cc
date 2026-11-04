@@ -1,20 +1,38 @@
 #!/usr/bin/env bash
-# a64cc / a64c++ : the project's compiler driver (NATIVE aarch64 Ubuntu 24.04).
+# a64cc / a64c++ : the project's compiler driver for AArch64 Linux (Ubuntu 24.04).
 #
 # Produces a BTI-ENFORCED executable, working around the fact that Ubuntu
-# 24.04's glibc startup objects (Scrt1.o, crti.o, crtn.o) carry no BTI note:
-#   - clang-20, -mbranch-protection=standard  (emit bti pads + PAC-ret)
-#   - replace glibc's Scrt1.o with our own BTI-marked _start (runtime/crt_bti.o)
-#   - use gcc's crtbeginS.o/crtendS.o, which ARE BTI-marked on 24.04
-#   - omit glibc crti.o/crtn.o (no _init/_fini entered indirectly without a pad)
-#   - -z force-bti stamps the GNU property note so the loader maps PROT_BTI
+# 24.04's glibc start-up objects (Scrt1.o, crti.o, crtn.o) carry no BTI note
+# (the linker ANDs the note across all inputs, so one unmarked object drops it):
+#   - clang-20 -mbranch-protection=standard   (bti landing pads + PAC-ret)
+#   - our own BTI-marked _start (runtime/crt_bti.o) instead of glibc's Scrt1.o
+#   - gcc-13's crtbeginS.o/crtendS.o, which ARE BTI-marked on 24.04
+#   - no glibc crti.o/crtn.o (nothing enters _init/_fini indirectly)
+#   - -z force-bti so the loader maps the code PROT_BTI
 #
-# JAIL=mask|check|audit   load the hardening pass + link the jail runtime
-# JAIL_NO_FAKEPLT=1       ablation: disable address-taken-import stubs
+#   JAIL=mask      Option B: or/and masks loaded from a read-only page (default)
+#   JAIL=pcrel     Option D: base-relative clamp, no stored masks; JAIL_K=<k>
+#                  sets the window to 2^k bytes (default 22 = 4 MiB)
+#   JAIL=check|audit   diagnostic runtimes (see pass/JailPass.cpp)
+#   JAIL_NO_FAKEPLT=1  ablation: no address-taken-import stubs
+#
+# Works natively on an aarch64 host, or as a cross compiler from x86-64 when
+# A64_CROSS=1 (Ubuntu packages gcc-13-aarch64-linux-gnu + libc6-dev-arm64-cross).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-GCCLIB=/usr/lib/gcc/aarch64-linux-gnu/13
 case "$(basename "$0")" in *++) DRV=clang++-20 ;; *) DRV=clang-20 ;; esac
+
+if [ "${A64_CROSS:-0}" = 1 ] || [ "$(uname -m)" != aarch64 ]; then
+  GCCLIB=/usr/lib/gcc-cross/aarch64-linux-gnu/13
+  TGT=(--target=aarch64-linux-gnu)
+  LDSEL=(-fuse-ld=bfd)
+  RTDIR="$ROOT/runtime/cross"
+else
+  GCCLIB=/usr/lib/gcc/aarch64-linux-gnu/13
+  TGT=()
+  LDSEL=()
+  RTDIR="$ROOT/runtime"
+fi
 
 link=1; shared=0
 for a in "$@"; do
@@ -24,32 +42,31 @@ for a in "$@"; do
   esac
 done
 
-args=(-mbranch-protection=standard)
+args=("${TGT[@]}" -mbranch-protection=standard)
+hard=0
 if [ -n "${JAIL:-}" ] && [ "${JAIL:-}" != none ]; then
-  # The pass reads the mode from the JAIL env var (inherited by clang), not an
-  # -mllvm flag: -fpass-plugin loads after -mllvm parsing, so a plugin cl::opt
-  # would be rejected. Export so the spawned clang sees it.
-  export JAIL JAIL_NO_FAKEPLT
+  # the pass reads JAIL / JAIL_K / JAIL_NO_FAKEPLT / JAIL_FAKEPLT_OUT from the
+  # environment that the spawned clang inherits (-mllvm is parsed too early)
+  export JAIL JAIL_K JAIL_NO_FAKEPLT JAIL_FAKEPLT_OUT
   args+=(-fpass-plugin="$ROOT/pass/libJailPass.so")
+  hard=1
 fi
 
-# Linker warnings (notably the expected -z force-bti notes about BTI-less input
-# objects) are kept, not suppressed, and tee'd to a log so they can be reviewed
-# — relevant for libraries that may contain hand-written assembly without BTI.
+# Linker warnings (e.g. force-bti notes about BTI-less inputs) are kept and
+# appended to a log for review, never suppressed.
 WARNLOG="${A64CC_WARNLOG:-/tmp/a64cc_link_warnings.log}"
 
 if [ "$link" = 1 ] && [ "$shared" = 0 ]; then
-  # executable: supply our own BTI-marked _start (24.04 glibc crt lacks BTI)
-  pre=(-nostartfiles "$ROOT/runtime/crt_bti.o" "$GCCLIB/crtbeginS.o"
+  pre=("${LDSEL[@]}" -nostartfiles "$RTDIR/crt_bti.o" "$GCCLIB/crtbeginS.o"
        -Wl,-z,force-bti -Wl,-z,now -Wl,-z,relro)
   post=("$GCCLIB/crtendS.o")
-  [ -n "${JAIL:-}" ] && [ "${JAIL:-}" != none ] && post=("$ROOT/runtime/jail_rt.o" "${post[@]}")
+  [ "$hard" = 1 ] && post=("$RTDIR/jail_rt.o" "${post[@]}")
+  [ -n "${A64_LINKFLAGS:-}" ] && post+=(${A64_LINKFLAGS})
   exec "$DRV" "${args[@]}" "${pre[@]}" "$@" "${post[@]}" 2> >(tee -a "$WARNLOG" >&2)
 elif [ "$link" = 1 ] && [ "$shared" = 1 ]; then
-  # shared library: no _start/crt; still force the BTI note + link the jail rt
-  pre=(-Wl,-z,force-bti -Wl,-z,now -Wl,-z,relro)
+  pre=("${LDSEL[@]}" -Wl,-z,force-bti -Wl,-z,now -Wl,-z,relro)
   post=()
-  [ -n "${JAIL:-}" ] && [ "${JAIL:-}" != none ] && post=("$ROOT/runtime/jail_rt.o")
+  [ "$hard" = 1 ] && post=("$RTDIR/jail_rt.o")
   exec "$DRV" "${args[@]}" "${pre[@]}" "$@" "${post[@]}" 2> >(tee -a "$WARNLOG" >&2)
 else
   exec "$DRV" "${args[@]}" "$@"

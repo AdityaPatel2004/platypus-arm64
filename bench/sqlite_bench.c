@@ -6,8 +6,13 @@
  * queries. Prints "<elapsed_seconds> <checksum>". The checksum must match
  * between unhardened and hardened builds (correctness under load).
  *
- * usage: sqlite_bench [N_inserts] [N_queries]
+ * usage: sqlite_bench [N_inserts] [N_queries] [DB]
+ *   DB defaults to :memory:. A file path runs the same workload on disk
+ *   (WAL journal, synchronous=OFF so fsync latency does not swamp the CPU cost
+ *   being measured; the file is deleted first). The on-disk run exercises the
+ *   VFS's indirect calls into libc (pread/pwrite/fcntl locks).
  */
+#include <unistd.h>
 #include "sqlite3.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,8 +28,21 @@ int main(int argc, char **argv) {
     int N = (argc > 1) ? atoi(argv[1]) : 300000;
     int Q = (argc > 2) ? atoi(argv[2]) : 300000;
     sqlite3 *db;
-    if (sqlite3_open(":memory:", &db)) { fprintf(stderr, "open fail\n"); return 1; }
-    sqlite3_exec(db, "PRAGMA journal_mode=MEMORY;", 0, 0, 0);
+    const char *path = (argc > 3) ? argv[3] : ":memory:";
+    int ondisk = strcmp(path, ":memory:") != 0;
+    if (ondisk) {
+        char b[4096];
+        unlink(path);
+        snprintf(b, sizeof b, "%s-wal", path); unlink(b);
+        snprintf(b, sizeof b, "%s-shm", path); unlink(b);
+    }
+    if (sqlite3_open(path, &db)) { fprintf(stderr, "open fail\n"); return 1; }
+    if (ondisk) {
+        sqlite3_exec(db, "PRAGMA journal_mode=WAL;", 0, 0, 0);
+        sqlite3_exec(db, "PRAGMA synchronous=OFF;", 0, 0, 0);
+    } else {
+        sqlite3_exec(db, "PRAGMA journal_mode=MEMORY;", 0, 0, 0);
+    }
     sqlite3_exec(db, "CREATE TABLE t(id INTEGER PRIMARY KEY,a INTEGER,b TEXT,c REAL);", 0, 0, 0);
 
     double t0 = now_s();

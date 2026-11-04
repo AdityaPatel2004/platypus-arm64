@@ -1,15 +1,47 @@
 #!/usr/bin/env bash
-# check_correctness.sh — build sqlite3 (amalgamation) unhardened and hardened,
-# run tests/sql_battery.sql through both, and compare md5. Reproducible.
-set -euo pipefail
+# check_correctness.sh — run the SQL battery through every sqlite3 build in
+# four storage configurations and require byte-identical output to the
+# unhardened build in each one:
+#   mem    :memory: database (no file I/O, no locking)       — the old test
+#   delete on-disk file, rollback journal (fcntl locks, pread/pwrite)
+#   wal    on-disk file, WAL journal (shared-memory mmap + locks)
+#   mmap   on-disk file, PRAGMA mmap_size=256MiB (mmap/mremap I/O path)
+# The on-disk modes are exactly what the 21-Oct version never exercised: the
+# hardened build crashed there on SQLite's indirect call to fcntl().
+#
+# usage: check_correctness.sh BASE_BIN HARD_BIN [HARD_BIN...]
+#   env RUN="qemu-aarch64 -L ..." to run under emulation (correctness only)
+set -uo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-SRC="$ROOT/targets/sqlite_src/sqlite-amalgamation-3540100"
-[ -d "$SRC" ] || bash "$ROOT/tools/fetch_sqlite.sh"
-CFL="-O2 -DSQLITE_THREADSAFE=0 -DSQLITE_OMIT_LOAD_EXTENSION -I$SRC"
-"$ROOT/bin/a64cc" $CFL "$SRC/shell.c" "$SRC/sqlite3.c" -lm -o /tmp/sq_base
-JAIL=mask "$ROOT/bin/a64cc" $CFL "$SRC/shell.c" "$SRC/sqlite3.c" -lm -o /tmp/sq_jail
-/tmp/sq_base :memory: < "$ROOT/tests/sql_battery.sql" > /tmp/out_base.txt 2>&1
-/tmp/sq_jail :memory: < "$ROOT/tests/sql_battery.sql" > /tmp/out_jail.txt 2>&1
-mb=$(md5sum < /tmp/out_base.txt | cut -c1-16); mj=$(md5sum < /tmp/out_jail.txt | cut -c1-16)
-if [ "$mb" = "$mj" ]; then echo "CORRECT: identical output, md5=$mb"; else
-  echo "DIFFERENT:"; diff /tmp/out_base.txt /tmp/out_jail.txt | head; exit 1; fi
+BAT="$ROOT/tests/sql_battery.sql"
+RUN="${RUN:-}"
+W="$(mktemp -d)"
+base="$1"; shift
+fail=0
+for mode in mem delete wal mmap; do
+  case $mode in
+    mem)    pre="";                               db=":memory:" ;;
+    delete) pre="PRAGMA journal_mode=DELETE;";    db="$W/db_MODE.sqlite" ;;
+    wal)    pre="PRAGMA journal_mode=WAL;";       db="$W/db_MODE.sqlite" ;;
+    mmap)   pre="PRAGMA mmap_size=268435456;";    db="$W/db_MODE.sqlite" ;;
+  esac
+  # strip the battery's own journal_mode line so each mode sets its own
+  body="$(grep -v -i '^PRAGMA journal_mode' "$BAT")"
+  i=0
+  for b in "$base" "$@"; do
+    d="${db/MODE/${mode}_$i}"; rm -f "$d" "$d-wal" "$d-shm" "$d-journal"
+    # .output-free run; capture stdout+stderr and the exit status
+    { echo "$pre"; echo "$body"; } | $RUN "$b" "$d" > "$W/out_${mode}_$i.txt" 2>&1
+    rc=$?
+    # reopen the file and re-read it: proves what was written is valid
+    if [ "$mode" != mem ]; then
+      echo "PRAGMA integrity_check; SELECT count(*), sum(v) FROM t;" | $RUN "$b" "$d" >> "$W/out_${mode}_$i.txt" 2>&1 || rc=$?
+    fi
+    m=$(md5sum < "$W/out_${mode}_$i.txt" | cut -c1-16)
+    if [ $i -eq 0 ]; then ref=$m; tag=base; else tag=$(basename "$b"); fi
+    if [ $rc -ne 0 ] || [ "$m" != "$ref" ]; then st=FAIL; fail=1; else st=ok; fi
+    printf "%-7s %-12s exit=%-3s md5=%s %s\n" "$mode" "$tag" "$rc" "$m" "$st"
+    i=$((i+1))
+  done
+done
+[ $fail = 0 ] && echo "ALL IDENTICAL" || { echo "MISMATCH OR CRASH"; exit 1; }
