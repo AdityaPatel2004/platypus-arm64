@@ -11,7 +11,7 @@ about each one. Evidence paths are relative to this folder.
 | 3 | Missing limitations: callbacks, dlopen, executable-only | High | **Stated** (REPORT §7). Not implemented. | REPORT §7 |
 | 4 | SQLite overhead over-read | High | **Re-measured** interleaved, with A/A and layout controls; reported with CIs and caveats. | `results/m4_2026-11-04/summary.csv`, REPORT §4c |
 | 5 | Design note misstated Intel (immediates) | Medium | **Corrected** against the paper's listings. | `docs/design_note_mask_encoding.md` |
-| 6 | Design note contradicted the benchmark | Medium | **Rewritten** on the new encoding experiment. The old +5.2% did not reproduce (+0.12%). | same; `bench_micro.csv` (`oct21` config) |
+| 6 | Design note contradicted the benchmark | Medium | **Rewritten** on the new encoding experiment. The old +5.2% did not reproduce (21 Oct build: −0.02% [−0.14, +0.07]). | same; `bench_micro.csv` (`oct21` config) |
 | 7 | `br` mislabelled as PLT jumps | Medium | **New audit** `tools/asm_audit.py`: 148 indirect tail calls clamped, 22 jump tables, 107 PLT, 2 unclamped in crtbeginS. | `results/asm_audit.txt` |
 | 8 | "system unreachable" needed a qualifier | Medium | **Measured.** Dangerous functions called directly by the module are reported as two-step reachable. | `tools/reach_after_bin.py`; `results/reach_after_bin.csv` |
 | 9 | RQ3 generalised from one distro | Medium | **Partly addressed.** New evidence that 24.04's marker is lost although pads exist; Fedora noted. The Fedora/26.04 scan is still to do (`tools/bti_pads_scan.sh` ready). | `results/bti_pads_ubuntu2404_toolchain_libs.csv`; REPORT §6 |

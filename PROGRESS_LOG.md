@@ -148,7 +148,7 @@ used (session could not type into Terminal); `run_all.sh` reproduces in Lima.
 - **NUMBERS:** reach sqlite3 3,816→26 (99.3%), redis 3,816→7 (99.8%);
   clamped sites sqlite3 1,909–1,917, redis 1,057–1,059, 2 unclamped (crtbeginS);
   RQ2 unpredictable C +3.6% / A,B +7.0% / D +11.0%; real workloads B ≤ +1.8%,
-  C/D ≈ 0; A/A ±0.8%; 21 Oct +5.2% micro → +0.12% here; Ubuntu 24.04 toolchain
+  C/D ≈ 0; A/A ±0.8%; 21 Oct +5.2% micro → −0.02% here (same 21 Oct pass); Ubuntu 24.04 toolchain
   libs: 0/27 marked, libstdc++ 4,207 pads, libc 23 pads.
 - **COMMANDS:** `bash run_all.sh`; `BENCH=1 bash run_all.sh`; `python3 tools/plots_v2.py`
 - **FILES:** see AUDIT_RESPONSE.md.

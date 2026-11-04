@@ -264,7 +264,8 @@ code in `indirect_micro.c` costs B +0.03%, D +0.01%, C −0.04% (all CIs within
 ±0.15%).
 
 **The 21 Oct "+5.2% worst case" does not reproduce.** The 21 Oct pass itself,
-rebuilt and run here, costs +0.12%. That figure was an artefact of the earlier
+rebuilt and run here in the same interleaved run, costs −0.02% [−0.14, +0.07]
+(`bench_micro.csv`, config `oct21`). The 5.2% was an artefact of the earlier
 measurement, not a clamp cost.
 
 **Real workloads** (`results/m4_2026-11-04/summary.csv`, fig. 4):

@@ -99,8 +99,8 @@ See REPORT §4c.
 1. "The Intel clamp uses immediates": false. PLaTypus loads its masks from
    GOT slots. The real Arm difference is load/store (4 instructions vs 2).
 2. "The loads are below the noise floor": the corrected microbenchmark at the
-   time read +5.2%. The 5.2% itself then failed to reproduce here (+0.12% for
-   the 21 Oct build on this machine). Neither was a sound basis for the
+   time read +5.2%. The 5.2% itself then failed to reproduce here (−0.02% [−0.14, +0.07]
+   for the 21 Oct build on this machine, `bench_micro.csv`). Neither was a sound basis for the
    claim; the encoding experiment above is.
 3. "Option C needs a custom loader": not on Linux ≥ 5.10. Segment alignment
    is enough. It was built and measured.
