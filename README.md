@@ -106,9 +106,13 @@ bash run_all.sh            # build + attack demos + correctness + audits -> resu
 BENCH=1 bash run_all.sh    # ... plus every benchmark (about 30 extra minutes)
 ```
 
-SQLite 3.54.1 and redis 7.2.5 sources are downloaded on first use and checked
-against SHA-256 hashes ([`tools/fetch_sqlite.sh`](tools/fetch_sqlite.sh),
-[`bench/build_redis.sh`](bench/build_redis.sh)).
+Third-party sources are not committed; they are downloaded on first use.
+redis 7.2.5 is checked against a SHA-256 hash
+([`bench/build_redis.sh`](bench/build_redis.sh)). SQLite 3.54.1 comes from
+sqlite.org's amalgamation zip, or, if that fails, is built from the
+SHA-256-checked GitHub tag ([`tools/fetch_sqlite.sh`](tools/fetch_sqlite.sh)).
+The correctness test compares hardened against unhardened output, so it does
+not depend on which of the two you get.
 
 **On an x86-64 machine (behaviour only, no timing):**
 [`tools/qemu_smoke.sh`](tools/qemu_smoke.sh) cross-compiles everything and
