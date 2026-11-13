@@ -1,0 +1,32 @@
+normal call (fp=tgt)    : ran (r=42)
+skip-pad call (fp=tgt+4): TRAP [SIGILL]
+RESULT: BTI ENFORCED -> GO
+== hijack_poc base
+[poc] fp overwritten -> 0xe688bab7cec4 (real system=0xe688bab7cec4)
+uid=501(adityapatel) gid=1000(adityapatel) groups=1000(adityapatel),999(systemd-journal)
+[poc] returned normally (no trap, no shell escape blocked)
+exit=0
+== hijack_poc mask
+[poc] fp overwritten -> 0xef4d2090cec4 (real system=0xef4d2090cec4)
+run_all.sh: line 20: 220444 Segmentation fault      (core dumped) "$B/poc_$m" hijack
+exit=139
+== hijack_poc pcrel
+[poc] fp overwritten -> 0xe7099ae0cec4 (real system=0xe7099ae0cec4)
+run_all.sh: line 20: 220450 Segmentation fault      (core dumped) "$B/poc_$m" hijack
+exit=139
+== hijack_poc aligned
+[poc] fp overwritten -> 0xf4e9cc93cec4 (real system=0xf4e9cc93cec4)
+run_all.sh: line 20: 220456 Segmentation fault      (core dumped) "$B/poc_$m" hijack
+exit=139
+== attack_mask
+[poc] step 1: widen the jail via arbitrary write (mask at 0xba0e74c50000)
+run_all.sh: line 21: 220462 Segmentation fault      (core dumped) "$B/attack_$m"
+exit=139
+== attack_pcrel
+[poc] step 1: widen the jail via arbitrary write (mask at 0xb1b509110000)
+run_all.sh: line 21: 220468 Segmentation fault      (core dumped) "$B/attack_$m"
+exit=139
+== attack_aligned
+[poc] step 1: widen the jail via arbitrary write (mask at 0xb9d732c20000)
+run_all.sh: line 21: 220474 Segmentation fault      (core dumped) "$B/attack_$m"
+exit=139

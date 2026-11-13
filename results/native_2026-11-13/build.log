@@ -1,0 +1,105 @@
+### tests + demos
+[jail] mode=mask module=/home/adityapatel.guest/pa/tests/toy_indirect.c functions=3 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=mask module=/home/adityapatel.guest/pa/tests/hijack_poc.c functions=2 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=mask module=/home/adityapatel.guest/pa/tests/mask_attack_poc.c functions=3 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=pcrel k=22 module=/home/adityapatel.guest/pa/tests/toy_indirect.c functions=3 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=pcrel k=22 module=/home/adityapatel.guest/pa/tests/hijack_poc.c functions=2 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=pcrel k=22 module=/home/adityapatel.guest/pa/tests/mask_attack_poc.c functions=3 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=aligned k=22 module=/home/adityapatel.guest/pa/tests/toy_indirect.c functions=3 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=aligned k=22 module=/home/adityapatel.guest/pa/tests/hijack_poc.c functions=2 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=aligned k=22 module=/home/adityapatel.guest/pa/tests/mask_attack_poc.c functions=3 indirect-calls-clamped=1 fakeplt-trampolines=0
+### microbenchmarks
+[jail] mode=mask module=/home/adityapatel.guest/pa/bench/indirect_micro.c functions=5 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=pcrel k=22 module=/home/adityapatel.guest/pa/bench/indirect_micro.c functions=5 indirect-calls-clamped=1 fakeplt-trampolines=0
+[jail] mode=aligned k=22 module=/home/adityapatel.guest/pa/bench/indirect_micro.c functions=5 indirect-calls-clamped=1 fakeplt-trampolines=0
+### sqlite (CLI, bench, speedtest1)
+/usr/bin/ld: /usr/lib/aarch64-linux-gnu/libc_nonshared.a(atexit.oS): warning: BTI turned on by -z force-bti when all inputs do not have BTI in NOTE section.
+[jail] mode=mask module=/home/adityapatel.guest/pa/bench/sqlite_bench.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=mask module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/speedtest1.c functions=30 indirect-calls-clamped=7 fakeplt-trampolines=0
+[jail] mode=mask module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/shell.c functions=410 indirect-calls-clamped=129 fakeplt-trampolines=3
+[jail] mode=mask module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+[jail] mode=mask module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+[jail] mode=mask module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+/usr/bin/ld: /usr/lib/aarch64-linux-gnu/libc_nonshared.a(atexit.oS): warning: BTI turned on by -z force-bti when all inputs do not have BTI in NOTE section.
+[jail] mode=pcrel k=22 module=/home/adityapatel.guest/pa/bench/sqlite_bench.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=pcrel k=22 module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/speedtest1.c functions=30 indirect-calls-clamped=7 fakeplt-trampolines=0
+[jail] mode=pcrel k=22 module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/shell.c functions=410 indirect-calls-clamped=129 fakeplt-trampolines=3
+[jail] mode=pcrel k=22 module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+[jail] mode=pcrel k=22 module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+[jail] mode=pcrel k=22 module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+/usr/bin/ld: /usr/lib/aarch64-linux-gnu/libc_nonshared.a(atexit.oS): warning: BTI turned on by -z force-bti when all inputs do not have BTI in NOTE section.
+[jail] mode=aligned k=22 module=/home/adityapatel.guest/pa/bench/sqlite_bench.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=aligned k=22 module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/speedtest1.c functions=30 indirect-calls-clamped=7 fakeplt-trampolines=0
+[jail] mode=aligned k=22 module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/shell.c functions=410 indirect-calls-clamped=129 fakeplt-trampolines=3
+[jail] mode=aligned k=22 module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+[jail] mode=aligned k=22 module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+[jail] mode=aligned k=22 module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=22
+/usr/bin/ld: /usr/lib/aarch64-linux-gnu/libc_nonshared.a(atexit.oS): warning: BTI turned on by -z force-bti when all inputs do not have BTI in NOTE section.
+[jail] mode=mask module=/home/adityapatel.guest/pa/bench/sqlite_bench.c functions=1 indirect-calls-clamped=0 fakeplt-trampolines=0
+[jail] mode=mask module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=0
+[jail] mode=audit module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/shell.c functions=410 indirect-calls-clamped=129 fakeplt-trampolines=0
+[jail] mode=audit module=/home/adityapatel.guest/pa/targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c functions=1546 indirect-calls-clamped=1808 fakeplt-trampolines=0
+/usr/bin/ld: /usr/lib/aarch64-linux-gnu/libc_nonshared.a(atexit.oS): warning: BTI turned on by -z force-bti when all inputs do not have BTI in NOTE section.
+### redis
+/home/adityapatel.guest/pa/targets/dl/redis-7.2.5.tar.gz: OK
+### redis base (JAIL=none)
+-rwxrwxr-x 1 adityapatel adityapatel 6177400 Nov 13 01:58 /home/adityapatel.guest/pa/targets/redis-base/src/redis-server
+### redis mask (JAIL=mask)
+-rwxrwxr-x 1 adityapatel adityapatel 6204104 Nov 13 01:59 /home/adityapatel.guest/pa/targets/redis-mask/src/redis-server
+### redis pcrel (JAIL=pcrel)
+-rwxrwxr-x 1 adityapatel adityapatel 6204560 Nov 13 01:59 /home/adityapatel.guest/pa/targets/redis-pcrel/src/redis-server
+### redis aligned (JAIL=aligned)
+-rwxrwxr-x 1 adityapatel adityapatel 12429368 Nov 13 01:59 /home/adityapatel.guest/pa/targets/redis-aligned/src/redis-server
+total 46888
+drwxrwxr-x 2 adityapatel adityapatel     4096 Nov 13 01:58 .
+drwxrwxr-x 3 adityapatel adityapatel     4096 Nov 13 01:50 ..
+-rwxrwxr-x 1 adityapatel adityapatel  4200224 Nov 13 01:57 attack_aligned
+-rwxrwxr-x 1 adityapatel adityapatel    71352 Nov 13 01:57 attack_mask
+-rwxrwxr-x 1 adityapatel adityapatel    71416 Nov 13 01:57 attack_pcrel
+-rwxrwxr-x 1 adityapatel adityapatel    70168 Nov 13 01:57 bti_probe
+-rwxrwxr-x 1 adityapatel adityapatel    70208 Nov 13 01:57 cmicroR_A
+-rwxrwxr-x 1 adityapatel adityapatel    70208 Nov 13 01:57 cmicroR_B
+-rwxrwxr-x 1 adityapatel adityapatel    70208 Nov 13 01:57 cmicroR_C
+-rwxrwxr-x 1 adityapatel adityapatel    70208 Nov 13 01:57 cmicroR_D
+-rwxrwxr-x 1 adityapatel adityapatel    70208 Nov 13 01:57 cmicroR_NONE
+-rwxrwxr-x 1 adityapatel adityapatel    70208 Nov 13 01:57 cmicro_A
+-rwxrwxr-x 1 adityapatel adityapatel    70208 Nov 13 01:57 cmicro_B
+-rwxrwxr-x 1 adityapatel adityapatel    70208 Nov 13 01:57 cmicro_C
+-rwxrwxr-x 1 adityapatel adityapatel    70208 Nov 13 01:57 cmicro_D
+-rwxrwxr-x 1 adityapatel adityapatel    70208 Nov 13 01:57 cmicro_NONE
+-rw-rw-r-- 1 adityapatel adityapatel      189 Nov 13 01:58 fakeplt_sqlite_aligned.txt
+-rw-rw-r-- 1 adityapatel adityapatel        0 Nov 13 01:57 fakeplt_sqlite_base.txt
+-rw-rw-r-- 1 adityapatel adityapatel      189 Nov 13 01:58 fakeplt_sqlite_mask.txt
+-rw-rw-r-- 1 adityapatel adityapatel      189 Nov 13 01:58 fakeplt_sqlite_pcrel.txt
+-rwxrwxr-x 1 adityapatel adityapatel  4200256 Nov 13 01:57 micro_aligned
+-rwxrwxr-x 1 adityapatel adityapatel    70120 Nov 13 01:57 micro_base
+-rwxrwxr-x 1 adityapatel adityapatel    71384 Nov 13 01:57 micro_mask
+-rwxrwxr-x 1 adityapatel adityapatel    71448 Nov 13 01:57 micro_pcrel
+-rwxrwxr-x 1 adityapatel adityapatel  4200224 Nov 13 01:57 poc_aligned
+-rwxrwxr-x 1 adityapatel adityapatel    70088 Nov 13 01:57 poc_base
+-rwxrwxr-x 1 adityapatel adityapatel    71352 Nov 13 01:57 poc_mask
+-rwxrwxr-x 1 adityapatel adityapatel    71416 Nov 13 01:57 poc_pcrel
+-rwxrwxr-x 1 adityapatel adityapatel  1503920 Nov 13 01:59 redis-benchmark
+-rwxrwxr-x 1 adityapatel adityapatel  1237304 Nov 13 01:59 redis-cli
+-rwxrwxr-x 1 adityapatel adityapatel 12429368 Nov 13 01:59 redis-server_aligned
+-rwxrwxr-x 1 adityapatel adityapatel  6177400 Nov 13 01:59 redis-server_base
+-rwxrwxr-x 1 adityapatel adityapatel  6204104 Nov 13 01:59 redis-server_mask
+-rwxrwxr-x 1 adityapatel adityapatel  6204560 Nov 13 01:59 redis-server_pcrel
+-rwxrwxr-x 1 adityapatel adityapatel  4293560 Nov 13 01:58 speedtest1_aligned
+-rwxrwxr-x 1 adityapatel adityapatel  1341800 Nov 13 01:57 speedtest1_base
+-rwxrwxr-x 1 adityapatel adityapatel  1409896 Nov 13 01:58 speedtest1_mask
+-rwxrwxr-x 1 adityapatel adityapatel  1409936 Nov 13 01:58 speedtest1_pcrel
+-rwxrwxr-x 1 adityapatel adityapatel  4291360 Nov 13 01:58 sqlbench_aligned
+-rwxrwxr-x 1 adityapatel adityapatel  1274000 Nov 13 01:57 sqlbench_base
+-rwxrwxr-x 1 adityapatel adityapatel  1342136 Nov 13 01:58 sqlbench_mask
+-rwxrwxr-x 1 adityapatel adityapatel  1340632 Nov 13 01:58 sqlbench_mask_nofp
+-rwxrwxr-x 1 adityapatel adityapatel  1342200 Nov 13 01:58 sqlbench_pcrel
+-rwxrwxr-x 1 adityapatel adityapatel  4314088 Nov 13 01:58 sqlite3_aligned
+-rwxrwxr-x 1 adityapatel adityapatel  1690872 Nov 13 01:58 sqlite3_audit
+-rwxrwxr-x 1 adityapatel adityapatel  1689816 Nov 13 01:58 sqlite3_base
+-rwxrwxr-x 1 adityapatel adityapatel  1692568 Nov 13 01:58 sqlite3_mask
+-rwxrwxr-x 1 adityapatel adityapatel  1692608 Nov 13 01:58 sqlite3_pcrel
+-rwxrwxr-x 1 adityapatel adityapatel  4200120 Nov 13 01:57 toy_aligned
+-rwxrwxr-x 1 adityapatel adityapatel    69984 Nov 13 01:57 toy_base
+-rwxrwxr-x 1 adityapatel adityapatel    71248 Nov 13 01:57 toy_mask
+-rwxrwxr-x 1 adityapatel adityapatel    71312 Nov 13 01:57 toy_pcrel

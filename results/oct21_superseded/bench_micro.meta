@@ -1,0 +1,10 @@
+date: 2026-10-21T13:46:34+05:30
+name: micro
+srcs: bench/indirect_micro.c
+cflags: -O2
+bench_args: 400000000
+reps: 21 core: 1
+aa_control: 0
+driver: a64cc (clang-20, -mbranch-protection=standard)
+base_sha: 68d2dddcd4294c0b
+jail_sha: 2f942d6ff7dcd3be

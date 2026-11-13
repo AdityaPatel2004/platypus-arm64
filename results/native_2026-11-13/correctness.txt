@@ -1,0 +1,25 @@
+mem     base         exit=0   md5=fc7278020e81021c ok
+mem     sqlite3_mask exit=0   md5=fc7278020e81021c ok
+mem     sqlite3_pcrel exit=0   md5=fc7278020e81021c ok
+mem     sqlite3_aligned exit=0   md5=fc7278020e81021c ok
+delete  base         exit=0   md5=9d3abcb927469709 ok
+delete  sqlite3_mask exit=0   md5=9d3abcb927469709 ok
+delete  sqlite3_pcrel exit=0   md5=9d3abcb927469709 ok
+delete  sqlite3_aligned exit=0   md5=9d3abcb927469709 ok
+wal     base         exit=0   md5=57d3c2a51ad7babb ok
+wal     sqlite3_mask exit=0   md5=57d3c2a51ad7babb ok
+wal     sqlite3_pcrel exit=0   md5=57d3c2a51ad7babb ok
+wal     sqlite3_aligned exit=0   md5=57d3c2a51ad7babb ok
+mmap    base         exit=0   md5=4b2bc709114b6db5 ok
+mmap    sqlite3_mask exit=0   md5=4b2bc709114b6db5 ok
+mmap    sqlite3_pcrel exit=0   md5=4b2bc709114b6db5 ok
+mmap    sqlite3_aligned exit=0   md5=4b2bc709114b6db5 ok
+ALL IDENTICAL
+speedtest1 base 1.497 f99b2520c28647595d25eab8bc01f582957f222537b63875
+redis base 0.681000 d285c4224c65
+speedtest1 mask 1.487 f99b2520c28647595d25eab8bc01f582957f222537b63875
+redis mask 0.684000 d285c4224c65
+speedtest1 pcrel 1.493 f99b2520c28647595d25eab8bc01f582957f222537b63875
+redis pcrel 0.697000 d285c4224c65
+speedtest1 aligned 1.462 f99b2520c28647595d25eab8bc01f582957f222537b63875
+redis aligned 0.679000 d285c4224c65

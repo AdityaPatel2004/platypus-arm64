@@ -1,0 +1,10 @@
+date: 2026-10-21T13:45:08+05:30
+name: sqlite_aa
+srcs: bench/sqlite_bench.c targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c
+cflags: -O2 -DSQLITE_THREADSAFE=0 -DSQLITE_OMIT_LOAD_EXTENSION -Itargets/sqlite_src/sqlite-amalgamation-3540100
+bench_args: 100000 100000
+reps: 21 core: 1
+aa_control: 1
+driver: a64cc (clang-20, -mbranch-protection=standard)
+base_sha: 4fec09a52f91263b
+jail_sha: 4fec09a52f91263b

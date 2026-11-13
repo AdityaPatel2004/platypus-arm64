@@ -1,0 +1,55 @@
+/home/adityapatel.guest/pa/build/native/sqlite3_base
+  blr  UNCLAMPED   1759
+  br   UNCLAMPED   151
+  br   jumptable   22
+  br   plt         104
+  => clamped indirect call sites: 0; unclamped indirect branches: 1910
+/home/adityapatel.guest/pa/build/native/sqlite3_mask
+  blr  clamped-B   1761
+  br   UNCLAMPED   2
+  br   clamped-B   148
+  br   jumptable   22
+  br   plt         107
+  => clamped indirect call sites: 1909; unclamped indirect branches: 2
+/home/adityapatel.guest/pa/build/native/sqlite3_pcrel
+  blr  clamped-D   1767
+  br   UNCLAMPED   2
+  br   clamped-D   148
+  br   jumptable   22
+  br   plt         107
+  => clamped indirect call sites: 1915; unclamped indirect branches: 2
+/home/adityapatel.guest/pa/build/native/sqlite3_aligned
+  blr  clamped-C   1769
+  br   UNCLAMPED   2
+  br   clamped-C   148
+  br   jumptable   22
+  br   plt         107
+  => clamped indirect call sites: 1917; unclamped indirect branches: 2
+/home/adityapatel.guest/pa/build/native/redis-server_base
+  blr  UNCLAMPED   1010
+  blr  clamped-B   1
+  br   UNCLAMPED   51
+  br   jumptable   13
+  br   plt         234
+  => clamped indirect call sites: 1; unclamped indirect branches: 1061
+/home/adityapatel.guest/pa/build/native/redis-server_mask
+  blr  clamped-B   1008
+  br   UNCLAMPED   2
+  br   clamped-B   49
+  br   jumptable   13
+  br   plt         235
+  => clamped indirect call sites: 1057; unclamped indirect branches: 2
+/home/adityapatel.guest/pa/build/native/redis-server_pcrel
+  blr  clamped-D   1008
+  br   UNCLAMPED   2
+  br   clamped-D   49
+  br   jumptable   13
+  br   plt         235
+  => clamped indirect call sites: 1057; unclamped indirect branches: 2
+/home/adityapatel.guest/pa/build/native/redis-server_aligned
+  blr  clamped-C   1010
+  br   UNCLAMPED   2
+  br   clamped-C   49
+  br   jumptable   13
+  br   plt         235
+  => clamped indirect call sites: 1059; unclamped indirect branches: 2

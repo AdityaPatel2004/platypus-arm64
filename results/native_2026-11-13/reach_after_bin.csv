@@ -1,0 +1,9 @@
+binary,reachable_after,dangerous_after,dangerous_after_list,plt_pads,direct_dangerous,reachable_list
+sqlite3_base,2,0,,.plt,popen;system,free;open64
+sqlite3_mask,26,2,mmap64;mremap,.plt,mprotect;popen;system,access;close;fchmod;fchown;fclose;fcntl64;free;fstat64;ftruncate64;getcwd;geteuid;lstat64;mkdir;mmap64;mremap;munmap;open64;pclose;pread64;pwrite64;read;readlink;rmdir;stat64;unlink;write
+sqlite3_pcrel,26,2,mmap64;mremap,.plt,mprotect;popen;system,access;close;fchmod;fchown;fclose;fcntl64;free;fstat64;ftruncate64;getcwd;geteuid;lstat64;mkdir;mmap64;mremap;munmap;open64;pclose;pread64;pwrite64;read;readlink;rmdir;stat64;unlink;write
+sqlite3_aligned,26,2,mmap64;mremap,.plt,mprotect;popen;system,access;close;fchmod;fchown;fclose;fcntl64;free;fstat64;ftruncate64;getcwd;geteuid;lstat64;mkdir;mmap64;mremap;munmap;open64;pclose;pread64;pwrite64;read;readlink;rmdir;stat64;unlink;write
+redis-server_base,3,0,,.plt,dlopen;dlsym;execve;fork;mmap64;mprotect,clearenv;free;malloc_usable_size
+redis-server_mask,7,0,,.plt,dlopen;dlsym;execve;fork;mmap64;mprotect,calloc;clearenv;free;malloc;malloc_usable_size;realloc;strdup
+redis-server_pcrel,7,0,,.plt,dlopen;dlsym;execve;fork;mmap64;mprotect,calloc;clearenv;free;malloc;malloc_usable_size;realloc;strdup
+redis-server_aligned,7,0,,.plt,dlopen;dlsym;execve;fork;mmap64;mprotect,calloc;clearenv;free;malloc;malloc_usable_size;realloc;strdup

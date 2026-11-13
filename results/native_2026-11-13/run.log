@@ -1,0 +1,4 @@
+### 1. pass + runtime
+ninja: no work to do.
+### 2. sources
+### 3. build everything (base / mask=B / pcrel=D / aligned=C)
