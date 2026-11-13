@@ -4,3 +4,6 @@ build/
 *.o
 .DS_Store
 __pycache__/
+runtime/cross/
+pass/libJailPass.so
+demos/out/

@@ -1,5 +1,10 @@
 # Progress Log — Restricting Cross-Library Control Flow on AArch64
 
+> **Kept as written, for the record.** Corrections made later (see the end of
+> `REPORT.md`): the `-z force-bti` SIGILL at `_start` described in Session A was
+> demonstrated under QEMU BTI emulation, not on the M4; the window-overlap
+> check reports only. Paths such as `~/e0256` refer to the author's own VM.
+
 Timeline note: the 9-week plan was compressed into a focused build sprint. Entries
 use the project's 8-field template. Machine state unless stated: Ubuntu 24.04.5
 arm64 in Lima VM on Apple M4 Pro, 4 vCPU / 8 GB, native virtualization, idle.

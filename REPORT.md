@@ -1,6 +1,6 @@
 # Restricting Cross-Library Control Flow on AArch64 — Working Report
 
-**E0-256 System Security · submission #25951 · Aditya Patel**
+**Aditya Patel** · course project, E0-256 System Security, IISc Bengaluru (2026)
 An AArch64 port of PLaTypus's cross-module control-flow defence ("execution
 jails"), evaluated on an Apple M4 Pro running Arm64 Linux.
 
@@ -10,6 +10,14 @@ jails"), evaluated on an Apple M4 Pro running Arm64 Linux.
 > over-read. All of that is fixed, re-measured and recorded below. What changed,
 > and why, is listed point by point in `AUDIT_RESPONSE.md`. Every number here
 > traces to a file under `results/m4_2026-11-04/` or `results/`.
+>
+> **13 Nov 2026 update.** The functional part of `run_all.sh` (build, attack
+> demos, correctness, machine-code audit, reachability, BTI scan; *not* the
+> benchmarks) was re-run natively in a stock Ubuntu 24.04 arm64 Lima VM on the
+> same M4. Every outcome matched this report (`results/native_2026-11-13/`).
+> Three statements were corrected at the same time; see "Corrections" at the
+> end. The document history (review, audit response, build log) is in
+> `docs/history/`.
 
 ---
 
@@ -84,9 +92,10 @@ Figures: `results/figs/fig2_reach.png`, `fig3_rq2_encoding.png`,
 - **Toolchain:** Ubuntu 24.04's clang 20.1.2, binutils 2.42 and gcc-13 crt
   files (cross packages from `noble-updates`); the pass is built against the
   same LLVM 20.
-- **Why not the Lima VM:** this audit session could not type into Terminal,
-  so it could not enter Lima. `run_all.sh` reruns everything natively in
-  Lima, and that run should be the final confirmation (see README).
+- **Confirmation in Lima (13 Nov):** the 4 Nov session could not enter the
+  Lima VM, so these measurements ran in a separate VM on the same chip. The
+  functional checks were later re-run natively in Lima with identical outcomes
+  (`results/native_2026-11-13/`); the benchmarks were not re-run there.
 - **Benchmarks:** `bench/bench.py`. Configurations run **interleaved**
   (base, B, D, C, base, …) on a pinned core. Each run is checked against the
   unhardened checksum, and overhead is the median difference with a 95%
@@ -343,7 +352,14 @@ output instead of discarding it; the liboqs numbers need re-running with it.
 - **Not yet measured:** other distributions. Fedora has built every package
   with `-mbranch-protection=standard` by default since Fedora 33
   ([Fedora change page](https://fedoraproject.org/wiki/Changes/Aarch64_PointerAuthentication)).
-  "BTI is unused in the wild" therefore holds for Ubuntu 24.04 only.
+  "BTI is unused in the wild" therefore holds for Ubuntu 24.04 only. Debian
+  has built glibc with BTI support since 2.39-5
+  ([Debian wiki](https://wiki.debian.org/ToolChain/PACBTI)), so this result
+  should not be read as a statement about current distributions.
+- **13 Nov re-scan in Lima** (`results/native_2026-11-13/bti_pads_scan.csv`):
+  2 of 2,091 ELF files carry the marker, the same conclusion. Some pad counts
+  differ from the 4 Nov cross-package scan (libstdc++ 4,503 vs 4,207;
+  libc.so.6 42 vs 23); we have not investigated why.
   `tools/bti_pads_scan.sh` (marker *and* pad count per file) is ready to run
   on Fedora and Ubuntu 26.04 VMs.
 
@@ -370,8 +386,9 @@ output instead of discarding it; the liboqs numbers need re-running with it.
 - **PLT result** depends on PIE + GNU ld + `-z now` (§3).
 - **Option C** trades ASLR entropy (6–7 bits) and file size for the cheapest
   clamp.
-- **Environment:** the measurements ran in a separate VM on the same M4, not
-  the Lima VM. `run_all.sh` reproduces them in Lima.
+- **Environment:** the benchmarks ran in a separate VM on the same M4, not the
+  Lima VM. The functional results were confirmed in Lima on 13 Nov; the
+  benchmarks have not been repeated in Lima or on another machine.
 - **The scope is two hardened applications** (sqlite3, redis) plus the liboqs
   stretch. nginx, curl and openssl appear only in Deliverable 1.
 
@@ -392,3 +409,19 @@ bench/build_all.sh, build_redis.sh, run_all_benches.sh, speedtest1_run.sh, redis
 run_all.sh                   one command: build + demos + correctness + audits (+ BENCH=1)
 results/m4_2026-11-04/       every raw CSV, .meta, summary.csv, demo + correctness logs
 ```
+
+## Corrections (13 Nov 2026)
+
+- **The window-overlap check only reports.** The check that no *other*
+  module's code lies inside the jail window prints its result with
+  `JAIL_VERBOSE=1` and never aborts. What the start-up routine enforces
+  (abort) is: the module is found, the masks page is made read-only, and for
+  C/D the program's own code fits the window.
+- **One unmarked glibc object is still linked.** `bin/a64cc` replaces
+  glibc's start files, but `libc_nonshared.a(atexit.oS)` has no BTI marker
+  (the linker warns). `-z force-bti` covers it; it is only ever called
+  directly, so it needs no landing pad.
+- **Where the start-up failure was shown.** "A normal link leaves BTI off" and
+  "`-z force-bti` alone gives SIGILL at `_start`" were demonstrated under
+  QEMU's BTI emulation, not on the M4. The fixed build's BTI enforcement *was*
+  shown on the M4 (`tests/bti_probe.c`).

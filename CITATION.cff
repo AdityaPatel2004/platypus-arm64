@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below, and cite the PLaTypus paper it ports."
+title: "platypus-arm64: Restricting Cross-Library Control Flow on AArch64"
+abstract: >-
+  An AArch64 port of PLaTypus's execution jails: an out-of-tree LLVM 20 pass
+  and a per-module start-up routine that clamp indirect-call targets into the
+  calling module, relying on Arm BTI, evaluated on an Apple M4 Pro running
+  Arm64 Linux.
+type: software
+authors:
+  - family-names: Patel
+    given-names: Aditya
+    affiliation: "Indian Institute of Science, Bengaluru"
+repository-code: "https://github.com/AdityaPatel2004/platypus-arm64"
+license: MIT
+version: "0.1.0"
+date-released: "2026-11-13"
+keywords:
+  - control-flow integrity
+  - AArch64
+  - Arm BTI
+  - code-reuse attacks
+  - LLVM
+references:
+  - type: conference-paper
+    title: "PLaTypus: Restricting Cross-Module Transitions to Mitigate Code-Reuse Attacks"
+    authors:
+      - family-names: Chatzianagnostou
+        given-names: Apostolos
+      - family-names: Sanchez Bajo
+        given-names: Marcos
+      - family-names: Rossow
+        given-names: Christian
+    conference:
+      name: "IEEE Symposium on Security and Privacy (S&P)"
+    year: 2026

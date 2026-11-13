@@ -12,7 +12,7 @@ cmake --build pass/build && ln -sf build/libJailPass.so pass/libJailPass.so
 clang-20 -c runtime/crt_bti.S -o runtime/crt_bti.o
 clang-20 -O2 -mbranch-protection=standard -c runtime/jail_rt.c -o runtime/jail_rt.o
 echo "### 2. sources"
-[ -f targets/sqlite_src/sqlite-amalgamation-3540100/sqlite3.c ] || tar xzf targets/dl/sqlite_amalg.tgz
+bash tools/fetch_sqlite.sh
 echo "### 3. build everything (base / mask=B / pcrel=D / aligned=C)"
 bash bench/build_all.sh native > "$OUT/build.log" 2>&1
 echo "### 4. security demos"
