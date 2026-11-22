@@ -1,0 +1,9 @@
+date: 2026-11-22T13:42:46+0530
+name: sqlite_disk
+reps: 14
+core: 1
+host: lima-e0256 aarch64 6.8.0-149-generic
+config base: /home/adityapatel.guest/pa/build/native/sqlbench_base 60000 60000 /tmp/sb.db
+config mask: /home/adityapatel.guest/pa/build/native/sqlbench_mask 60000 60000 /tmp/sb.db
+config pcrel: /home/adityapatel.guest/pa/build/native/sqlbench_pcrel 60000 60000 /tmp/sb.db
+config aligned: /home/adityapatel.guest/pa/build/native/sqlbench_aligned 60000 60000 /tmp/sb.db

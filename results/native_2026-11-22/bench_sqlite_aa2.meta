@@ -1,0 +1,7 @@
+date: 2026-11-22T13:37:55+0530
+name: sqlite_aa2
+reps: 21
+core: 1
+host: lima-e0256 aarch64 6.8.0-149-generic
+config base: /home/adityapatel.guest/pa/build/native/sqlbench_base 100000 100000
+config aa: /home/adityapatel.guest/pa/build/native/sqlbench_base_copy 100000 100000

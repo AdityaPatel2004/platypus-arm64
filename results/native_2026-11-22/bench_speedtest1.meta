@@ -1,0 +1,9 @@
+date: 2026-11-22T13:43:24+0530
+name: speedtest1
+reps: 14
+core: 1
+host: lima-e0256 aarch64 6.8.0-149-generic
+config base: /home/adityapatel.guest/pa/bench/speedtest1_run.sh /home/adityapatel.guest/pa/build/native/speedtest1_base 60 /tmp
+config mask: /home/adityapatel.guest/pa/bench/speedtest1_run.sh /home/adityapatel.guest/pa/build/native/speedtest1_mask 60 /tmp
+config pcrel: /home/adityapatel.guest/pa/bench/speedtest1_run.sh /home/adityapatel.guest/pa/build/native/speedtest1_pcrel 60 /tmp
+config aligned: /home/adityapatel.guest/pa/bench/speedtest1_run.sh /home/adityapatel.guest/pa/build/native/speedtest1_aligned 60 /tmp

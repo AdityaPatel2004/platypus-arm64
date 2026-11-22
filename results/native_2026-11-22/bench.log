@@ -1,0 +1,97 @@
++ python3 /home/adityapatel.guest/pa/bench/bench.py micro 31 1 'base=/home/adityapatel.guest/pa/build/native/micro_base 400000000' 'mask=/home/adityapatel.guest/pa/build/native/micro_mask 400000000' 'pcrel=/home/adityapatel.guest/pa/build/native/micro_pcrel 400000000' 'aligned=/home/adityapatel.guest/pa/build/native/micro_aligned 400000000'
+raw -> /home/adityapatel.guest/pa/results/bench_micro.csv  meta -> /home/adityapatel.guest/pa/results/bench_micro.meta  (checksum 7735731385749166806 matched in every run)
+
+config     n   median_s     IQR_s
+base      31    0.27561   0.01239
+mask      31    0.27495   0.01536
+pcrel     31    0.27414   0.01163
+aligned   31    0.27675   0.01451
+  mask     vs base: -0.24%  95% CI [-1.43%, +3.27%]  perm p=1.000  -> not distinguishable from zero
+  pcrel    vs base: -0.53%  95% CI [-1.73%, +2.50%]  perm p=0.606  -> not distinguishable from zero
+  aligned  vs base: +0.41%  95% CI [-1.77%, +2.99%]  perm p=0.692  -> not distinguishable from zero
++ python3 /home/adityapatel.guest/pa/bench/bench.py clamp_enc 31 1 'base=/home/adityapatel.guest/pa/build/native/cmicro_NONE 400000000' 'A=/home/adityapatel.guest/pa/build/native/cmicro_A 400000000' 'B=/home/adityapatel.guest/pa/build/native/cmicro_B 400000000' 'C=/home/adityapatel.guest/pa/build/native/cmicro_C 400000000' 'D=/home/adityapatel.guest/pa/build/native/cmicro_D 400000000'
+raw -> /home/adityapatel.guest/pa/results/bench_clamp_enc.csv  meta -> /home/adityapatel.guest/pa/results/bench_clamp_enc.meta  (checksum 7735731385749166806 matched in every run)
+
+config     n   median_s     IQR_s
+base      31    0.26856   0.00460
+A         31    0.26869   0.00439
+B         31    0.27837   0.00322
+C         31    0.26856   0.00238
+D         31    0.27570   0.00250
+  A        vs base: +0.05%  95% CI [-0.39%, +0.78%]  perm p=1.000  -> not distinguishable from zero
+  B        vs base: +3.66%  95% CI [+2.97%, +3.90%]  perm p=0.000  -> distinguishable from zero
+  C        vs base: +0.00%  95% CI [-0.42%, +0.60%]  perm p=1.000  -> not distinguishable from zero
+  D        vs base: +2.66%  95% CI [+1.99%, +2.82%]  perm p=0.000  -> distinguishable from zero
++ python3 /home/adityapatel.guest/pa/bench/bench.py clamp_enc_rand 21 1 'base=/home/adityapatel.guest/pa/build/native/cmicroR_NONE 100000000' 'A=/home/adityapatel.guest/pa/build/native/cmicroR_A 100000000' 'B=/home/adityapatel.guest/pa/build/native/cmicroR_B 100000000' 'C=/home/adityapatel.guest/pa/build/native/cmicroR_C 100000000' 'D=/home/adityapatel.guest/pa/build/native/cmicroR_D 100000000'
+raw -> /home/adityapatel.guest/pa/results/bench_clamp_enc_rand.csv  meta -> /home/adityapatel.guest/pa/results/bench_clamp_enc_rand.meta  (checksum -3906938641948478774 matched in every run)
+
+config     n   median_s     IQR_s
+base      21    0.47180   0.00173
+A         21    0.50490   0.00097
+B         21    0.50465   0.00116
+C         21    0.48867   0.00082
+D         21    0.52568   0.00453
+  A        vs base: +7.02%  95% CI [+6.81%, +7.12%]  perm p=0.000  -> distinguishable from zero
+  B        vs base: +6.96%  95% CI [+6.75%, +7.08%]  perm p=0.000  -> distinguishable from zero
+  C        vs base: +3.58%  95% CI [+3.38%, +3.68%]  perm p=0.000  -> distinguishable from zero
+  D        vs base: +11.42%  95% CI [+10.99%, +11.66%]  perm p=0.000  -> distinguishable from zero
++ python3 /home/adityapatel.guest/pa/bench/bench.py sqlite_aa2 21 1 'base=/home/adityapatel.guest/pa/build/native/sqlbench_base 100000 100000' 'aa=/home/adityapatel.guest/pa/build/native/sqlbench_base_copy 100000 100000'
+raw -> /home/adityapatel.guest/pa/results/bench_sqlite_aa2.csv  meta -> /home/adityapatel.guest/pa/results/bench_sqlite_aa2.meta  (checksum 10000000 matched in every run)
+
+config     n   median_s     IQR_s
+base      21    1.70807   0.03974
+aa        21    1.70513   0.02867
+  aa       vs base: -0.17%  95% CI [-1.24%, +0.91%]  perm p=0.400  -> not distinguishable from zero
++ python3 /home/adityapatel.guest/pa/bench/bench.py sqlite_mem 28 1 'base=/home/adityapatel.guest/pa/build/native/sqlbench_base 100000 100000' 'mask=/home/adityapatel.guest/pa/build/native/sqlbench_mask 100000 100000' 'pcrel=/home/adityapatel.guest/pa/build/native/sqlbench_pcrel 100000 100000' 'aligned=/home/adityapatel.guest/pa/build/native/sqlbench_aligned 100000 100000'
+raw -> /home/adityapatel.guest/pa/results/bench_sqlite_mem.csv  meta -> /home/adityapatel.guest/pa/results/bench_sqlite_mem.meta  (checksum 10000000 matched in every run)
+
+config     n   median_s     IQR_s
+base      28    1.72683   0.03375
+mask      28    1.80968   0.04343
+pcrel     28    1.85700   0.02773
+aligned   28    1.87680   0.06450
+  mask     vs base: +4.80%  95% CI [+4.24%, +6.02%]  perm p=0.000  -> distinguishable from zero
+  pcrel    vs base: +7.54%  95% CI [+6.78%, +8.24%]  perm p=0.000  -> distinguishable from zero
+  aligned  vs base: +8.68%  95% CI [+7.79%, +11.01%]  perm p=0.000  -> distinguishable from zero
++ python3 /home/adityapatel.guest/pa/bench/bench.py sqlite_disk 14 1 'base=/home/adityapatel.guest/pa/build/native/sqlbench_base 60000 60000 /tmp/sb.db' 'mask=/home/adityapatel.guest/pa/build/native/sqlbench_mask 60000 60000 /tmp/sb.db' 'pcrel=/home/adityapatel.guest/pa/build/native/sqlbench_pcrel 60000 60000 /tmp/sb.db' 'aligned=/home/adityapatel.guest/pa/build/native/sqlbench_aligned 60000 60000 /tmp/sb.db'
+raw -> /home/adityapatel.guest/pa/results/bench_sqlite_disk.csv  meta -> /home/adityapatel.guest/pa/results/bench_sqlite_disk.meta  (checksum 3600000 matched in every run)
+
+config     n   median_s     IQR_s
+base      14    0.58249   0.00248
+mask      14    0.60271   0.00338
+pcrel     14    0.62745   0.00512
+aligned   14    0.63241   0.00626
+  mask     vs base: +3.47%  95% CI [+3.22%, +3.85%]  perm p=0.000  -> distinguishable from zero
+  pcrel    vs base: +7.72%  95% CI [+7.37%, +8.27%]  perm p=0.000  -> distinguishable from zero
+  aligned  vs base: +8.57%  95% CI [+8.03%, +9.09%]  perm p=0.000  -> distinguishable from zero
++ python3 /home/adityapatel.guest/pa/bench/bench.py speedtest1 14 1 'base=/home/adityapatel.guest/pa/bench/speedtest1_run.sh /home/adityapatel.guest/pa/build/native/speedtest1_base 60 /tmp' 'mask=/home/adityapatel.guest/pa/bench/speedtest1_run.sh /home/adityapatel.guest/pa/build/native/speedtest1_mask 60 /tmp' 'pcrel=/home/adityapatel.guest/pa/bench/speedtest1_run.sh /home/adityapatel.guest/pa/build/native/speedtest1_pcrel 60 /tmp' 'aligned=/home/adityapatel.guest/pa/bench/speedtest1_run.sh /home/adityapatel.guest/pa/build/native/speedtest1_aligned 60 /tmp'
+raw -> /home/adityapatel.guest/pa/results/bench_speedtest1.csv  meta -> /home/adityapatel.guest/pa/results/bench_speedtest1.meta  (checksum f99b2520c28647595d25eab8bc01f582957f222537b63875 matched in every run)
+
+config     n   median_s     IQR_s
+base      14    1.38900   0.02075
+mask      14    1.40300   0.03925
+pcrel     14    1.39400   0.05175
+aligned   14    1.38400   0.03050
+  mask     vs base: +1.01%  95% CI [-0.25%, +2.45%]  perm p=0.145  -> not distinguishable from zero
+  pcrel    vs base: +0.36%  95% CI [-1.14%, +1.67%]  perm p=0.364  -> not distinguishable from zero
+  aligned  vs base: -0.36%  95% CI [-1.58%, +0.62%]  perm p=0.457  -> not distinguishable from zero
++ python3 /home/adityapatel.guest/pa/bench/bench.py redis 21 - 'base=/home/adityapatel.guest/pa/bench/redis_run.sh /home/adityapatel.guest/pa/build/native/redis-server_base /home/adityapatel.guest/pa/build/native/redis-benchmark /home/adityapatel.guest/pa/build/native/redis-cli 40000' 'mask=/home/adityapatel.guest/pa/bench/redis_run.sh /home/adityapatel.guest/pa/build/native/redis-server_mask /home/adityapatel.guest/pa/build/native/redis-benchmark /home/adityapatel.guest/pa/build/native/redis-cli 40000' 'pcrel=/home/adityapatel.guest/pa/bench/redis_run.sh /home/adityapatel.guest/pa/build/native/redis-server_pcrel /home/adityapatel.guest/pa/build/native/redis-benchmark /home/adityapatel.guest/pa/build/native/redis-cli 40000' 'aligned=/home/adityapatel.guest/pa/bench/redis_run.sh /home/adityapatel.guest/pa/build/native/redis-server_aligned /home/adityapatel.guest/pa/build/native/redis-benchmark /home/adityapatel.guest/pa/build/native/redis-cli 40000'
+raw -> /home/adityapatel.guest/pa/results/bench_redis.csv  meta -> /home/adityapatel.guest/pa/results/bench_redis.meta  (checksum d285c4224c65 matched in every run)
+
+config     n   median_s     IQR_s
+base      21    1.36800   0.01400
+mask      21    1.36400   0.02050
+pcrel     21    1.37800   0.01500
+aligned   21    1.36200   0.01850
+  mask     vs base: -0.29%  95% CI [-1.02%, +0.44%]  perm p=0.463  -> not distinguishable from zero
+  pcrel    vs base: +0.73%  95% CI [-0.07%, +1.32%]  perm p=0.064  -> not distinguishable from zero
+  aligned  vs base: -0.44%  95% CI [-0.88%, +0.66%]  perm p=0.650  -> not distinguishable from zero
++ python3 /home/adityapatel.guest/pa/bench/bench.py ablation_fakeplt 31 1 'base=/home/adityapatel.guest/pa/build/native/sqlbench_mask 60000 60000' 'nofp=/home/adityapatel.guest/pa/build/native/sqlbench_mask_nofp 60000 60000'
+raw -> /home/adityapatel.guest/pa/results/bench_ablation_fakeplt.csv  meta -> /home/adityapatel.guest/pa/results/bench_ablation_fakeplt.meta  (checksum 3600000 matched in every run)
+
+config     n   median_s     IQR_s
+base      31    0.57751   0.00568
+nofp      31    0.57686   0.00354
+  nofp     vs base: -0.11%  95% CI [-0.57%, +0.35%]  perm p=0.528  -> not distinguishable from zero
++ set +x
+ALL BENCHMARKS DONE

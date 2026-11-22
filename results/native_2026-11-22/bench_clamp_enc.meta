@@ -1,0 +1,10 @@
+date: 2026-11-22T13:36:14+0530
+name: clamp_enc
+reps: 31
+core: 1
+host: lima-e0256 aarch64 6.8.0-149-generic
+config base: /home/adityapatel.guest/pa/build/native/cmicro_NONE 400000000
+config A: /home/adityapatel.guest/pa/build/native/cmicro_A 400000000
+config B: /home/adityapatel.guest/pa/build/native/cmicro_B 400000000
+config C: /home/adityapatel.guest/pa/build/native/cmicro_C 400000000
+config D: /home/adityapatel.guest/pa/build/native/cmicro_D 400000000

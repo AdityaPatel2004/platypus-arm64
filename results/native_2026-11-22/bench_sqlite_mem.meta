@@ -1,0 +1,9 @@
+date: 2026-11-22T13:39:12+0530
+name: sqlite_mem
+reps: 28
+core: 1
+host: lima-e0256 aarch64 6.8.0-149-generic
+config base: /home/adityapatel.guest/pa/build/native/sqlbench_base 100000 100000
+config mask: /home/adityapatel.guest/pa/build/native/sqlbench_mask 100000 100000
+config pcrel: /home/adityapatel.guest/pa/build/native/sqlbench_pcrel 100000 100000
+config aligned: /home/adityapatel.guest/pa/build/native/sqlbench_aligned 100000 100000
