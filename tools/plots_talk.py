@@ -1,16 +1,20 @@
 #!/usr/bin/env python3
 """plots_talk.py: presentation versions of the two cost charts, showing only
-designs B (masks loaded) and C (aligned), from the same 4 Nov 2026 M4 data.
-usage: python3 tools/plots_talk.py   (reads results/m4_2026-11-04/summary.csv,
-       writes results/figs_talk/)
+designs B (masks loaded) and C (aligned), from a run's summary.csv (default: the 4 Nov 2026 M4 data).
+usage: python3 tools/plots_talk.py            (reads results/m4_2026-11-04/summary.csv,
+                                                writes results/figs_talk/)
+       python3 tools/plots_talk.py RUN_DIR    (reads RUN_DIR/summary.csv, writes RUN_DIR/figs_talk/)
 """
-import csv, os
+import csv, os, sys
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-RUN = f"{ROOT}/results/m4_2026-11-04"; OUT = f"{ROOT}/results/figs_talk"
+if len(sys.argv) > 1:
+    RUN = os.path.abspath(sys.argv[1]); OUT = f"{RUN}/figs_talk"
+else:
+    RUN = f"{ROOT}/results/m4_2026-11-04"; OUT = f"{ROOT}/results/figs_talk"
 os.makedirs(OUT, exist_ok=True)
 SURF, INK, INK2, GRID = "#ffffff", "#0b0b0b", "#52514e", "#e4e3df"
 SER = {"B": "#eb6834", "C": "#1baf7a"}
