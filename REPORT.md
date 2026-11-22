@@ -18,6 +18,13 @@ jails"), evaluated on an Apple M4 Pro running Arm64 Linux.
 > Three statements were corrected at the same time; see "Corrections" at the
 > end. The document history (review, audit response, build log) is in
 > `docs/history/`.
+>
+> **22 Nov 2026 update.** All benchmarks were run in that same Lima VM, on the
+> 13 Nov builds (`results/native_2026-11-22/`). The worst-case microbenchmark
+> reproduces (C +3.6%, A/B +7.0%, D +11.4%), and redis and speedtest1 stay at
+> zero. The synthetic `sqlite_bench` does **not** reproduce: in Lima it costs
+> B +3.5 to +4.8% and C/D +7.5 to +8.7%. See §4c. The headline rows on cost
+> below are updated accordingly.
 
 ---
 
@@ -73,8 +80,8 @@ Arm64 and asks three questions:
 | Can an attacker who can write memory switch the jail off? | **Not any more.** The 21 Oct build could be bypassed (shell ran); now the mask write faults. |
 | Correctness | SQLite is byte-identical to unhardened in 4 storage modes (in-memory, rollback, WAL, mmap). speedtest1's verification hash and a redis command script also match. |
 | RQ1: reach removed | sqlite3 **3,816 → 26** (99.3%); redis-server **3,816 → 7** (99.8%). Measured from the binaries. |
-| RQ2: encodings | Worst case (unpredictable targets): C **+3.6%**, A/B **+7.0%**, D **+11.0%**. Cost tracks the number of instructions on the target's dependency chain. With predictable targets all are ≤1.2%. |
-| Real-workload cost | redis, speedtest1, sqlite_bench: Option B **+0.9% to +1.8%** on SQLite and ≈0 on redis. C and D are indistinguishable from zero, or below it. |
+| RQ2: encodings | Worst case (unpredictable targets): C **+3.6%**, A/B **+7.0%**, D **+11.0%** (Lima, 22 Nov: D +11.4%, others equal). Cost tracks the number of instructions on the target's dependency chain. With predictable targets all are ≤1.2% here; in Lima B +3.7% and D +2.7%. |
+| Real-workload cost | redis and speedtest1: ≈0 for B, C and D in both runs. sqlite_bench: B **+0.9% to +1.8%**, C/D below zero here, but in the 22 Nov Lima run B **+3.5 to +4.8%** and C/D **+7.5 to +8.7%** (§4c). |
 | Completeness | Every indirect call in hardened SQLite (1,909–1,917) and redis (1,057–1,059) is clamped. The only 2 unclamped branches are in GCC's start-up file. |
 | RQ3: BTI in Ubuntu 24.04 | 2 of 2,100 files carry the BTI marker (0.1%; 21 Oct scan). New: GCC's runtime libraries *contain* thousands of landing pads but **no** marker; glibc isn't built for BTI at all. |
 
@@ -299,6 +306,38 @@ measurement, not a clamp cost.
 - The defensible statement: **on the M4, the jail's cost on real workloads is
   below ~2%, and below what single-build measurements resolve for C and D.**
   That is consistent with PLaTypus's <0.5% on Intel.
+
+**22 Nov 2026: the same benchmarks in the Lima VM** (`results/native_2026-11-22/summary.csv`;
+stock Ubuntu 24.04 arm64, LLVM 20 from apt.llvm.org, the 13 Nov builds):
+
+| | A | B | C | D |
+|---|---:|---:|---:|---:|
+| predictable targets | +0.05% | +3.66% | +0.00% | +2.66% |
+| unpredictable targets | +7.02% | +6.96% | **+3.58%** | +11.42% |
+
+| Workload | B (mask) | C (aligned) | D (pcrel) |
+|---|---|---|---|
+| redis (21 reps) | −0.29% [−1.02, +0.44] | −0.44% [−0.80, +0.66] | +0.73% [−0.07, +1.32] |
+| SQLite speedtest1, on disk (14 reps) | +1.01% [−0.22, +2.45] | −0.36% [−1.58, +0.58] | +0.36% [−1.08, +1.67] |
+| sqlite_bench, in memory (28 reps) | **+4.80%** [+4.23, +6.03] | **+8.68%** [+7.78, +11.02] | **+7.54%** [+6.79, +8.25] |
+| sqlite_bench, on disk (14 reps) | **+3.47%** [+3.20, +3.85] | **+8.57%** [+8.04, +9.09] | **+7.72%** [+7.36, +8.29] |
+| A/A noise floor (21 reps) | −0.17% [−1.24, +0.88] | | |
+| fake-PLT ablation, B with vs without stubs | −0.11% [−0.57, +0.35] | | |
+
+What changes and what doesn't:
+
+- The worst-case ranking (C < A = B < D) and its size reproduce almost exactly.
+- redis and speedtest1 stay within the noise for every encoding.
+- `sqlite_bench` moves a lot between the two VMs. In Lima, every encoding costs
+  something, and C/D cost *more* than B, the opposite of the microbenchmark
+  ranking. One possible cause is the side-effecting `adrp` that C and D emit at
+  every call site, which the optimiser cannot move; this is not confirmed. The
+  safe reading is that this benchmark is sensitive to the build and code
+  layout, and that the earlier "below ~2%" statement holds for redis and
+  speedtest1 but not for this loop.
+- B's +3.7% with predictable targets is at least partly an artefact of
+  `clamp_micro.c`: its hand-written assembly has a `memory` clobber, which
+  forces extra loads in the loop.
 
 ### 4d. Reachability after hardening (RQ1) ✅
 

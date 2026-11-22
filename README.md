@@ -49,27 +49,35 @@ Measured on an Apple M4 Pro (CPU features `bti paca pacg`) in an Arm64 Linux VM
 | Cross-library functions reachable through an indirect call | sqlite3 **3,816 → 26** (99.3%), redis-server **3,816 → 7** (99.8%), counted from the hardened binaries | `results/native_2026-11-13/reach_after_bin.csv` |
 | Does the hardened code still work? | SQLite output byte-identical in 4 storage modes; speedtest1 verification hash and a redis command script match | `results/native_2026-11-13/correctness.txt` |
 | Completeness | all indirect calls clamped (sqlite3 1,909–1,917, redis 1,057–1,059); 2 unclamped branches, both in GCC's `crtbeginS.o` start-up code | `results/asm_audit.txt` |
-| Worst-case clamp cost (microbenchmark, every branch mispredicted) | C **+3.6%**, A/B **+7.0%**, D **+11.0%** | `results/m4_2026-11-04/` |
-| Cost on real workloads | B: up to about +2% on SQLite, not measurable on redis. C and D: not distinguishable from zero | `results/m4_2026-11-04/summary.csv` |
+| Worst-case clamp cost (microbenchmark, every branch mispredicted) | C **+3.6%**, A/B **+7.0%**, D **+11.4%** | `results/native_2026-11-22/summary.csv` |
+| Cost on real workloads | redis and SQLite's speedtest1: not distinguishable from zero for B, C or D. A synthetic SQLite loop heavy on indirect calls (`sqlite_bench`): B **+3.5 to +4.8%**, C and D **+7.5 to +8.7%** | same |
 | How much of Ubuntu 24.04 has BTI on? | 2 of 2,091 ELF files carry the BTI marker. GCC's runtime libraries contain thousands of landing pads but no marker. glibc is not built for BTI. | `results/native_2026-11-13/bti_pads_scan.csv` |
 
 For scale: PLaTypus reports a 99.37% reduction for sqlite3 on Intel. Our
 metric is different (exported functions rather than `endbr64` pads), so the
 two numbers are comparable in magnitude, not a reproduction.
 
-**Which run produced what.** The benchmarks (4 Nov 2026) ran in an Arm64 VM on
-the M4 with Ubuntu 24.04's glibc 2.39 loaded through each binary's own
-`PT_INTERP` ([`ENVIRONMENT.txt`](results/m4_2026-11-04/ENVIRONMENT.txt)). On
-13 Nov 2026 the functional part (`bash run_all.sh`, everything except the
-benchmarks) was re-run in a stock Ubuntu 24.04 arm64 Lima VM on the same M4,
-and every outcome matched. The benchmarks have not been repeated on a second
-machine.
+**Which run produced what.** On 13 Nov 2026 the functional part
+(`bash run_all.sh`: build, attack demos, correctness, audit, reachability, BTI
+scan) was run in a stock Ubuntu 24.04 arm64 Lima VM on the M4. On 22 Nov 2026
+all benchmarks were run in the same VM, on those same builds
+([`results/native_2026-11-22/`](results/native_2026-11-22/)). The numbers above
+come from these two runs.
+
+An earlier benchmark run (4 Nov 2026, [`results/m4_2026-11-04/`](results/m4_2026-11-04/))
+used a different Arm64 VM on the same M4 and a different compiler build. Its
+worst-case microbenchmark matches the Lima run (C +3.6%, A/B +7.0%, D +11.0%),
+and redis and speedtest1 were at zero there too. On `sqlite_bench` it differed a
+lot: B cost under 2% and C/D came out *faster* than unhardened. That benchmark
+is clearly sensitive to the build and code layout, so treat its numbers with
+care. The benchmarks have not been repeated on a second machine.
 
 ## Limitations
 
 - **Only executables are hardened.** Hardening a shared library (the case
   PLaTypus covers most) has not been done. libc and other libraries keep their
-  own indirect calls unprotected.
+  own indirect calls unprotected, so an attacker who can write memory can go
+  after libc's own function pointers instead.
 - **Not supported:** calls through pointers obtained from another library
   (callbacks, `dlsym` results, C++ virtual calls into libstdc++) and
   `dlopen`'d modules. Such a program crashes when hardened, which is why SQLite
@@ -143,6 +151,7 @@ tools/                   reach.py / reach_after_bin.py (reachability), asm_audit
 bench/                   interleaved benchmark harness (bench.py: median, bootstrap CI, permutation p)
 results/m4_2026-11-04/   raw data of the benchmark run (CSV + .meta per benchmark)
 results/native_2026-11-13/  the functional re-run in a stock Ubuntu 24.04 Lima VM
+results/native_2026-11-22/  all benchmarks in the same Lima VM (+ figs_talk/ charts)
 results/oct21_superseded/   an earlier run whose numbers were withdrawn (kept for the record)
 REPORT.md                full write-up
 docs/                    mask-encoding design note; docs/history/ = review, audit response, build log
